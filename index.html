@@ -406,7 +406,7 @@
                                 </button>
                                 <span class="font-semibold">Details</span>
                             </div>
-                            <div id="contact-details" class="flex flex-col items-center justify-center min-h-[50vh] p-6 text-center text-gray-400">
+                            <div id="contact-details" class="flex flex-col items-center justify-center h-full p-6 text-center text-gray-400">
                                 <div>
                                     <i data-lucide="user" class="w-20 h-20 mx-auto mb-4 opacity-20"></i>
                                     <p>Select a contact to view details</p>
@@ -438,7 +438,7 @@
                         <div class="flex items-center space-x-2 min-w-max pb-2">
                             <span class="text-sm font-medium text-gray-500 mr-2">Folders:</span>
                             <div id="url-folders" class="flex items-center space-x-2">
-                                <button onclick="filterUrls('all')" class="url-folder-btn px-3 py-1.5 rounded-full bg-accent text-white text-sm shadow-sm" data-folder="all">All</button>
+                                <!-- Folders rendered via JS -->
                             </div>
                         </div>
                     </div>
@@ -1142,7 +1142,7 @@
             const search = document.getElementById('contact-search').value.toLowerCase();
             list.innerHTML = '';
             
-            const filtered = contacts.filter(c => c.name.toLowerCase().includes(search) || c.email.toLowerCase().includes(search));
+            const filtered = contacts.filter(c => c.name.toLowerCase().includes(search) || (c.email && c.email.toLowerCase().includes(search)));
             
             if(filtered.length === 0) {
                 list.innerHTML = `<div class="text-center text-gray-400 py-10"><p>No contacts found</p></div>`;
@@ -1155,15 +1155,25 @@
                 el.onclick = () => selectContact(c.id);
                 el.innerHTML = `
                     <div class="w-10 h-10 bg-gradient-to-br from-blue-400 to-purple-500 rounded-full flex items-center justify-center text-white font-bold overflow-hidden shrink-0">
-                        ${c.picture ? `<img src="${c.picture}" class="w-full h-full object-cover">` : c.name.charAt(0)}
+                        ${c.picture ? `<img src="${c.picture}" class="w-full h-full object-cover">` : c.name.charAt(0).toUpperCase()}
                     </div>
                     <div class="flex-1 min-w-0">
                         <h4 class="font-medium truncate text-sm">${c.name}</h4>
-                        <p class="text-xs text-gray-500 truncate">${c.email}</p>
+                        <p class="text-xs text-gray-500 truncate">${c.email || ''}</p>
                     </div>
                 `;
                 list.appendChild(el);
             });
+        }
+
+        function openContactAction(type, value) {
+            if (!value) return;
+            if (type === 'call') window.open(`tel:${value}`, '_self');
+            if (type === 'email') window.open(`mailto:${value}`);
+            if (type === 'chat') {
+                const cleanPhone = value.replace(/\D/g, '');
+                window.open(`https://wa.me/${cleanPhone}`, '_blank');
+            }
         }
 
         function selectContact(id) {
@@ -1171,40 +1181,43 @@
             const c = contacts.find(x => x.id === id);
             if(c) {
                 const details = document.getElementById('contact-details');
+                
+                let actionButtons = '';
+                if(c.phone) actionButtons += `<button onclick="openContactAction('call', '${c.phone}')" class="flex-1 bg-green-500 text-white py-2 rounded-xl flex flex-col items-center justify-center shadow-lg shadow-green-500/20 active:scale-95 transition-transform"><i data-lucide="phone" class="w-5 h-5 mb-1"></i> <span class="text-xs">Call</span></button>`;
+                if(c.email) actionButtons += `<button onclick="openContactAction('email', '${c.email}')" class="flex-1 bg-blue-500 text-white py-2 rounded-xl flex flex-col items-center justify-center shadow-lg shadow-blue-500/20 active:scale-95 transition-transform"><i data-lucide="mail" class="w-5 h-5 mb-1"></i> <span class="text-xs">Email</span></button>`;
+                if(c.phone) actionButtons += `<button onclick="openContactAction('chat', '${c.phone}')" class="flex-1 bg-[#25D366] text-white py-2 rounded-xl flex flex-col items-center justify-center shadow-lg shadow-[#25D366]/20 active:scale-95 transition-transform"><i data-lucide="message-circle" class="w-5 h-5 mb-1"></i> <span class="text-xs">Chat</span></button>`;
+
+                let infoCards = '';
+                if(c.email) infoCards += `<div class="bg-light-card dark:bg-dark-card p-4 rounded-xl border border-light-border dark:border-dark-border flex items-center space-x-4"><div class="p-2 bg-gray-100 dark:bg-gray-800 rounded-lg"><i data-lucide="mail" class="w-5 h-5 text-gray-500"></i></div><div class="flex-1 overflow-hidden"><p class="text-xs text-gray-400 uppercase font-semibold">Email</p><p class="truncate">${c.email}</p></div></div>`;
+                if(c.phone) infoCards += `<div class="bg-light-card dark:bg-dark-card p-4 rounded-xl border border-light-border dark:border-dark-border flex items-center space-x-4"><div class="p-2 bg-gray-100 dark:bg-gray-800 rounded-lg"><i data-lucide="phone" class="w-5 h-5 text-gray-500"></i></div><div class="flex-1 overflow-hidden"><p class="text-xs text-gray-400 uppercase font-semibold">Phone</p><p class="truncate">${c.phone}</p></div></div>`;
+                if(c.company) infoCards += `<div class="bg-light-card dark:bg-dark-card p-4 rounded-xl border border-light-border dark:border-dark-border flex items-center space-x-4"><div class="p-2 bg-gray-100 dark:bg-gray-800 rounded-lg"><i data-lucide="briefcase" class="w-5 h-5 text-gray-500"></i></div><div class="flex-1 overflow-hidden"><p class="text-xs text-gray-400 uppercase font-semibold">Company</p><p class="truncate">${c.company}</p></div></div>`;
+
+                // If no info cards, show a placeholder message or nothing
+                if(!infoCards) infoCards = `<p class="text-center text-gray-400 text-sm italic">No additional details</p>`;
+
+                const avatarContent = c.picture 
+                    ? `<img src="${c.picture}" class="w-full h-full object-cover">` 
+                    : (c.name ? c.name.charAt(0).toUpperCase() : '?');
+
                 details.innerHTML = `
-                    <div class="flex flex-col items-center animate-fade-in pt-4">
-                        <div class="w-24 h-24 bg-gradient-to-br from-blue-400 to-purple-500 rounded-full flex items-center justify-center text-white text-3xl font-bold mb-4 overflow-hidden shadow-lg">
-                            ${c.picture ? `<img src="${c.picture}" class="w-full h-full object-cover">` : c.name.charAt(0)}
+                    <div class="flex flex-col items-center h-full overflow-y-auto animate-fade-in pt-8 pb-20 w-full">
+                        <div class="w-28 h-28 bg-gradient-to-br from-blue-400 to-purple-500 rounded-full flex items-center justify-center text-white text-4xl font-bold mb-4 overflow-hidden shadow-2xl shrink-0 ring-4 ring-light-bg dark:ring-dark-bg">
+                            ${avatarContent}
                         </div>
-                        <h2 class="text-2xl font-bold mb-1">${c.name}</h2>
-                        <p class="text-gray-500 mb-6">${c.company || 'No Company'}</p>
+                        <h2 class="text-3xl font-bold mb-1 text-center px-4">${c.name || 'Unknown'}</h2>
+                        <p class="text-gray-500 mb-8 text-center px-4 font-medium">${c.company || 'No Company'}</p>
                         
-                        <div class="flex gap-4 mb-8 w-full max-w-xs px-4">
-                            <button onclick="window.open('tel:${c.phone}', '_self')" class="flex-1 bg-green-500 text-white py-2 rounded-xl flex flex-col items-center justify-center shadow-lg shadow-green-500/20 active:scale-95 transition-transform">
-                                <i data-lucide="phone" class="w-5 h-5 mb-1"></i> <span class="text-xs">Call</span>
-                            </button>
-                            <button onclick="window.open('mailto:${c.email}')" class="flex-1 bg-blue-500 text-white py-2 rounded-xl flex flex-col items-center justify-center shadow-lg shadow-blue-500/20 active:scale-95 transition-transform">
-                                <i data-lucide="mail" class="w-5 h-5 mb-1"></i> <span class="text-xs">Email</span>
-                            </button>
-                            <button onclick="window.open('https://wa.me/${c.phone.replace(/\D/g,'')}', '_blank')" class="flex-1 bg-[#25D366] text-white py-2 rounded-xl flex flex-col items-center justify-center shadow-lg shadow-[#25D366]/20 active:scale-95 transition-transform">
-                                <i data-lucide="message-circle" class="w-5 h-5 mb-1"></i> <span class="text-xs">Chat</span>
-                            </button>
+                        ${actionButtons ? `<div class="flex gap-4 mb-8 w-full max-w-sm px-6 justify-center">${actionButtons}</div>` : ''}
+
+                        <div class="w-full max-w-md space-y-3 px-6 flex-1">
+                            ${infoCards}
                         </div>
 
-                        <div class="w-full max-w-md space-y-4 px-4">
-                            <div class="bg-light-card dark:bg-dark-card p-4 rounded-xl border border-light-border dark:border-dark-border flex items-center space-x-4">
-                                <div class="p-2 bg-gray-100 dark:bg-gray-800 rounded-lg"><i data-lucide="mail" class="w-5 h-5 text-gray-500"></i></div>
-                                <div class="flex-1 overflow-hidden"><p class="text-xs text-gray-400 uppercase font-semibold">Email</p><p class="truncate">${c.email}</p></div>
-                            </div>
-                            <div class="bg-light-card dark:bg-dark-card p-4 rounded-xl border border-light-border dark:border-dark-border flex items-center space-x-4">
-                                <div class="p-2 bg-gray-100 dark:bg-gray-800 rounded-lg"><i data-lucide="phone" class="w-5 h-5 text-gray-500"></i></div>
-                                <div class="flex-1 overflow-hidden"><p class="text-xs text-gray-400 uppercase font-semibold">Phone</p><p class="truncate">${c.phone}</p></div>
-                            </div>
+                        <div class="mt-8 px-6 w-full max-w-md pb-8">
+                            <button onclick="deleteContact(${c.id})" class="w-full text-red-500 hover:bg-red-50 dark:hover:bg-red-900/10 px-4 py-3 rounded-xl transition-colors flex items-center justify-center gap-2 border border-transparent hover:border-red-200 dark:hover:border-red-900/30">
+                                <i data-lucide="trash-2" class="w-5 h-5"></i> Delete Contact
+                            </button>
                         </div>
-
-                        <button onclick="deleteContact(${c.id})" class="mt-8 text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 px-4 py-2 rounded-lg transition-colors flex items-center gap-2">
-                            <i data-lucide="trash-2" class="w-4 h-4"></i> Delete Contact
-                        </button>
                     </div>
                 `;
                 if(typeof lucide !== 'undefined') lucide.createIcons();
@@ -1229,7 +1242,7 @@
                     currentContactId = null;
                     const details = document.getElementById('contact-details');
                     if(details) {
-                        details.innerHTML = `<div class="flex flex-col items-center justify-center min-h-[50vh] p-6 text-center text-gray-400"><div><i data-lucide="user" class="w-20 h-20 mx-auto mb-4 opacity-20"></i><p>Select a contact to view details</p></div></div>`;
+                        details.innerHTML = `<div class="flex flex-col items-center justify-center h-full p-6 text-center text-gray-400"><div><i data-lucide="user" class="w-20 h-20 mx-auto mb-4 opacity-20"></i><p>Select a contact to view details</p></div></div>`;
                         if(typeof lucide !== 'undefined') lucide.createIcons();
                     }
                 }
@@ -1273,12 +1286,18 @@
                     notes = (d.notes||[]).map(n=>({...n, created:new Date(n.created), modified:new Date(n.modified)}));
                     photos = (d.photos||[]).map(p=>({...p, uploaded:new Date(p.uploaded)}));
                     contacts = d.contacts||[]; passwords = d.passwords||[]; urls = d.urls||[];
+                    // Robustly load folders, ensure array, ensure 'all' exists
+                    urlFolders = Array.isArray(d.urlFolders) ? d.urlFolders : [{id:'all', name: 'All URLs'}];
+                    if (!urlFolders.some(f => f.id === 'all')) {
+                        urlFolders.unshift({id:'all', name: 'All URLs'});
+                    }
+                    
                     customBackground = d.customBackground; applyCustomBackground();
                     appOrder = d.appOrder || appOrder;
                 } catch(e) { console.error(e); loadSampleData(); }
             } else { loadSampleData(); saveData(); }
             
-            renderAppsGrid(); renderNotes(); renderPhotos(); renderPasswords(); renderContacts(); renderUrls();
+            renderAppsGrid(); renderNotes(); renderPhotos(); renderPasswords(); renderContacts(); renderUrls(); renderUrlFolders(); updateUrlFolderSelect();
         }
         function loadSampleData() {
             notes = [{id:1, title:'Welcome', content:'Welcome to your new mobile-optimized OS!', folder:'all', created:new Date(), modified:new Date()}];
@@ -1416,9 +1435,16 @@
 
         // --- URL App ---
         function toggleUrlsView() { currentUrlsView = currentUrlsView==='grid'?'list':'grid'; document.getElementById('urls-view-icon').setAttribute('data-lucide', currentUrlsView==='list'?'layout-grid':'layout-list'); renderUrls(); }
-        function openUrlModal() { document.getElementById('url-modal').classList.remove('hidden'); }
+        function openUrlModal() { document.getElementById('url-modal').classList.remove('hidden'); updateUrlFolderSelect(); }
         function closeUrlModal() { document.getElementById('url-modal').classList.add('hidden'); }
-        function handleUrlSubmit(e) { e.preventDefault(); const t=document.getElementById('url-title').value, l=document.getElementById('url-link').value; urls.unshift({id:Date.now(), title:t, url:l, folder:'all', created:new Date()}); renderUrls(); saveData(); closeUrlModal(); }
+        function handleUrlSubmit(e) { 
+            e.preventDefault(); 
+            const t=document.getElementById('url-title').value;
+            const l=document.getElementById('url-link').value;
+            const f=document.getElementById('url-folder-select').value;
+            urls.unshift({id:Date.now(), title:t, url:l, folder:f, created:new Date()}); 
+            renderUrls(); saveData(); closeUrlModal(); 
+        }
         function renderUrls() {
             const c = document.getElementById('urls-container'); 
             if(!c) return;
@@ -1447,31 +1473,62 @@
         
         function createUrlFolder() {
             const name = prompt("Folder Name:");
-            if(name) {
-                urlFolders.push({id: Date.now(), name: name});
-                saveData();
-                const folderContainer = document.getElementById('url-folders');
-                const btn = document.createElement('button');
-                btn.className = "url-folder-btn px-3 py-1.5 rounded-full bg-light-card dark:bg-dark-card hover:bg-gray-200 dark:hover:bg-gray-700 text-sm shadow-sm";
-                btn.textContent = name;
-                btn.onclick = () => filterUrls(name); 
-                // Simplified logic, ideally re-render whole list
-                alert("Folder created (refresh to see fully integrated)");
+            if(name && name.trim() !== "") {
+                const cleanName = name.trim();
+                // Prevent duplicate names roughly
+                if(!urlFolders.find(f => f.name === cleanName)) {
+                    urlFolders.push({id: Date.now(), name: cleanName});
+                    saveData();
+                    renderUrlFolders();
+                    updateUrlFolderSelect();
+                    // Auto-select new folder
+                    filterUrls(cleanName);
+                } else {
+                    alert("Folder already exists!");
+                }
             }
+        }
+        
+        function renderUrlFolders() {
+            const container = document.getElementById('url-folders');
+            if(!container) return;
+            container.innerHTML = '';
+            
+            // Add 'All' button
+            const allBtn = document.createElement('button');
+            const baseClass = "url-folder-btn px-3 py-1.5 rounded-full text-sm shadow-sm transition-all whitespace-nowrap";
+            
+            allBtn.className = `${baseClass} ${currentUrlFolder === 'all' ? 'bg-accent text-white' : 'bg-light-card dark:bg-dark-card hover:bg-gray-200 dark:hover:bg-gray-700'}`;
+            allBtn.textContent = 'All';
+            allBtn.onclick = () => filterUrls('all');
+            container.appendChild(allBtn);
+            
+            urlFolders.forEach(folder => {
+                if(folder.id === 'all') return; // Skip if manually added to array, though we handle 'all' separately
+                const btn = document.createElement('button');
+                btn.className = `${baseClass} ${currentUrlFolder === folder.name ? 'bg-accent text-white' : 'bg-light-card dark:bg-dark-card hover:bg-gray-200 dark:hover:bg-gray-700'}`;
+                btn.textContent = folder.name;
+                btn.onclick = () => filterUrls(folder.name);
+                container.appendChild(btn);
+            });
+        }
+        
+        function updateUrlFolderSelect() {
+            const select = document.getElementById('url-folder-select');
+            if(!select) return;
+            select.innerHTML = '<option value="all">No Folder</option>';
+            urlFolders.forEach(folder => {
+                if(folder.id === 'all') return;
+                const option = document.createElement('option');
+                option.value = folder.name;
+                option.textContent = folder.name;
+                select.appendChild(option);
+            });
         }
         
         function filterUrls(folderName) {
             currentUrlFolder = folderName;
-            // Visual update
-            document.querySelectorAll('.url-folder-btn').forEach(btn => {
-                 if(btn.textContent === folderName || (folderName === 'all' && btn.dataset.folder === 'all')) {
-                     btn.classList.remove('bg-light-card', 'dark:bg-dark-card');
-                     btn.classList.add('bg-accent', 'text-white');
-                 } else {
-                     btn.classList.add('bg-light-card', 'dark:bg-dark-card');
-                     btn.classList.remove('bg-accent', 'text-white');
-                 }
-            });
+            renderUrlFolders(); // Re-render to update active state
             renderUrls();
         }
 
