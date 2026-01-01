@@ -1,0 +1,5 @@
+{
+  "name": "Shivam's Essential Toolkit Pro",
+  "description": "A pristine, production-ready React 18+ boilerplate configured with TypeScript, Tailwind CSS, and the Google GenAI SDK. Features a modular architecture, reusable UI components, and a pre-wired Gemini service.",
+  "requestFramePermissions": []
+}

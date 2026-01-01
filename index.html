@@ -1,0 +1,2577 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shivam's Essential Toolkit Pro</title>
+    <meta name="description" content="A comprehensive personal desktop operating system with productivity apps">
+    <meta name="author" content="Shivam's Essential Toolkit Pro">
+    <link rel="icon" type="image/png" href="assets/icon.png">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    
+    <!-- Custom Tailwind Config -->
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        'dark-bg': '#0a0a0a',
+                        'dark-card': '#1a1a1a',
+                        'dark-border': '#2a2a2a',
+                        'dark-hover': '#2a2a2a',
+                        'light-bg': '#f8fafc',
+                        'light-card': '#ffffff',
+                        'light-border': '#e2e8f0',
+                        'light-hover': '#f1f5f9',
+                        'accent': '#007AFF',
+                        'accent-hover': '#0056CC'
+                    },
+                    fontFamily: {
+                        'system': ['-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif']
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.5s ease-in-out',
+                        'slide-in': 'slideIn 0.4s ease-out',
+                        'scale-in': 'scaleIn 0.3s ease-out',
+                        'bounce-in': 'bounceIn 0.6s ease-out',
+                        'slide-up': 'slideUp 0.4s ease-out',
+                        'float': 'float 3s ease-in-out infinite',
+                        'pulse-slow': 'pulse 3s ease-in-out infinite'
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' }
+                        },
+                        slideIn: {
+                            '0%': { transform: 'translateX(-30px)', opacity: '0' },
+                            '100%': { transform: 'translateX(0)', opacity: '1' }
+                        },
+                        scaleIn: {
+                            '0%': { transform: 'scale(0.9)', opacity: '0' },
+                            '100%': { transform: 'scale(1)', opacity: '1' }
+                        },
+                        bounceIn: {
+                            '0%': { transform: 'scale(0.3)', opacity: '0' },
+                            '50%': { transform: 'scale(1.05)' },
+                            '70%': { transform: 'scale(0.9)' },
+                            '100%': { transform: 'scale(1)', opacity: '1' }
+                        },
+                        slideUp: {
+                            '0%': { transform: 'translateY(30px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' }
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-10px)' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--scrollbar-track);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--scrollbar-thumb);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--scrollbar-thumb-hover);
+        }
+        
+        /* Theme variables */
+        .dark {
+            --scrollbar-track: #1a1a1a;
+            --scrollbar-thumb: #2a2a2a;
+            --scrollbar-thumb-hover: #3a3a3a;
+        }
+        
+        .light {
+            --scrollbar-track: #f1f5f9;
+            --scrollbar-thumb: #cbd5e1;
+            --scrollbar-thumb-hover: #94a3b8;
+        }
+        
+        /* Enhanced transitions */
+        * {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        /* Rich text editor styles */
+        .rich-editor {
+            min-height: 300px;
+            outline: none;
+            overflow-y: auto;
+            max-height: 500px;
+        }
+        
+        .rich-editor:focus {
+            outline: none;
+        }
+        
+        /* Mobile optimizations */
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+            
+            .sidebar.mobile-open {
+                transform: translateX(0);
+            }
+            
+            .photo-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            }
+            
+            .app-card {
+                padding: 1rem;
+            }
+            
+            .rich-editor {
+                min-height: 200px;
+            }
+        }
+        
+        /* Scrollable containers */
+        .scrollable {
+            overflow-y: auto;
+            max-height: calc(100vh - 200px);
+        }
+        
+        /* List and Grid view toggles */
+        .list-view .photo-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        .list-view .photo-item {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem;
+            background: var(--card-bg);
+            border-radius: 0.5rem;
+        }
+        
+        .list-view .photo-item img {
+            width: 60px;
+            height: 60px;
+            margin-right: 1rem;
+        }
+        
+        /* Photo grid */
+        .photo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+        
+        /* Lightbox */
+        .lightbox {
+            backdrop-filter: blur(20px);
+        }
+        
+        /* App cards hover effects */
+        .app-card {
+            transform: translateY(0);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        
+        .app-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* Draggable app cards */
+        .app-card.dragging {
+            opacity: 0.5;
+            transform: rotate(5deg);
+        }
+        
+        /* Background image overlay */
+        .bg-overlay {
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.6));
+        }
+        
+        /* Profile avatar */
+        .profile-avatar {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        /* Glassmorphism effect */
+        .glass {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        /* Custom background */
+        .custom-bg {
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        /* Hide scrollbar for sidebar but allow scroll */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<script type="importmap">
+{
+  "imports": {
+    "react": "https://esm.sh/react@^19.2.3",
+    "react/": "https://esm.sh/react@^19.2.3/",
+    "lucide-react": "https://esm.sh/lucide-react@^0.562.0",
+    "recharts": "https://esm.sh/recharts@^3.6.0",
+    "next": "https://esm.sh/next@^16.1.1",
+    "tailwind-merge": "https://esm.sh/tailwind-merge@^3.4.0",
+    "react-day-picker": "https://esm.sh/react-day-picker@^9.13.0",
+    "react-hook-form": "https://esm.sh/react-hook-form@^7.69.0",
+    "@radix-ui/react-alert-dialog": "https://esm.sh/@radix-ui/react-alert-dialog@^1.1.15",
+    "@radix-ui/react-context-menu": "https://esm.sh/@radix-ui/react-context-menu@^2.2.16",
+    "cmdk": "https://esm.sh/cmdk@^1.1.1",
+    "@radix-ui/react-avatar": "https://esm.sh/@radix-ui/react-avatar@^1.1.11",
+    "@radix-ui/react-hover-card": "https://esm.sh/@radix-ui/react-hover-card@^1.1.15",
+    "@radix-ui/react-toggle-group": "https://esm.sh/@radix-ui/react-toggle-group@^1.1.11",
+    "@radix-ui/react-tabs": "https://esm.sh/@radix-ui/react-tabs@^1.1.13",
+    "next-themes": "https://esm.sh/next-themes@^0.4.6",
+    "embla-carousel-react": "https://esm.sh/embla-carousel-react@^8.6.0",
+    "@radix-ui/react-tooltip": "https://esm.sh/@radix-ui/react-tooltip@^1.2.8",
+    "@radix-ui/react-scroll-area": "https://esm.sh/@radix-ui/react-scroll-area@^1.2.10",
+    "@radix-ui/react-navigation-menu": "https://esm.sh/@radix-ui/react-navigation-menu@^1.2.14",
+    "input-otp": "https://esm.sh/input-otp@^1.4.2",
+    "sonner": "https://esm.sh/sonner@^2.0.7",
+    "@radix-ui/react-switch": "https://esm.sh/@radix-ui/react-switch@^1.2.6",
+    "@radix-ui/react-toggle": "https://esm.sh/@radix-ui/react-toggle@^1.1.10",
+    "@radix-ui/react-slider": "https://esm.sh/@radix-ui/react-slider@^1.3.6",
+    "class-variance-authority": "https://esm.sh/class-variance-authority@^0.7.1",
+    "clsx": "https://esm.sh/clsx@^2.1.1",
+    "@radix-ui/react-select": "https://esm.sh/@radix-ui/react-select@^2.2.6",
+    "@radix-ui/react-checkbox": "https://esm.sh/@radix-ui/react-checkbox@^1.3.3",
+    "@radix-ui/react-separator": "https://esm.sh/@radix-ui/react-separator@^1.1.8",
+    "@radix-ui/react-slot": "https://esm.sh/@radix-ui/react-slot@^1.2.4",
+    "@radix-ui/react-accordion": "https://esm.sh/@radix-ui/react-accordion@^1.2.12",
+    "@radix-ui/react-aspect-ratio": "https://esm.sh/@radix-ui/react-aspect-ratio@^1.1.8",
+    "@radix-ui/react-progress": "https://esm.sh/@radix-ui/react-progress@^1.1.8",
+    "@radix-ui/react-dropdown-menu": "https://esm.sh/@radix-ui/react-dropdown-menu@^2.1.16",
+    "@radix-ui/react-collapsible": "https://esm.sh/@radix-ui/react-collapsible@^1.1.12",
+    "path": "https://esm.sh/path@^0.12.7",
+    "vaul": "https://esm.sh/vaul@^1.1.2",
+    "@radix-ui/react-dialog": "https://esm.sh/@radix-ui/react-dialog@^1.1.15",
+    "@radix-ui/react-label": "https://esm.sh/@radix-ui/react-label@^2.1.8",
+    "@radix-ui/react-radio-group": "https://esm.sh/@radix-ui/react-radio-group@^1.3.8",
+    "@radix-ui/react-popover": "https://esm.sh/@radix-ui/react-popover@^1.1.15",
+    "react-resizable-panels": "https://esm.sh/react-resizable-panels@^4.1.1",
+    "@radix-ui/react-menubar": "https://esm.sh/@radix-ui/react-menubar@^1.1.16",
+    "url": "https://esm.sh/url@^0.11.4",
+    "@eslint/eslintrc": "https://esm.sh/@eslint/eslintrc@^3.3.3"
+  }
+}
+</script>
+</head>
+<body class="bg-light-bg dark:bg-dark-bg text-gray-900 dark:text-white font-system overflow-hidden transition-colors duration-300">
+    <!-- Main Container - Changed h-screen to h-dvh and min-h for better mobile support -->
+    <div id="app" class="flex h-dvh min-h-[500px]">
+        <!-- Sidebar - Added overflow-y-auto and no-scrollbar -->
+        <div id="sidebar" class="w-16 bg-light-card dark:bg-dark-card border-r border-light-border dark:border-dark-border flex flex-col items-center py-4 space-y-4 transition-all duration-300 hidden overflow-y-auto no-scrollbar shrink-0">
+            <div class="w-8 h-8 bg-accent rounded-lg flex items-center justify-center mb-4 animate-pulse-slow shrink-0">
+                <i data-lucide="grid-3x3" class="w-5 h-5 text-white"></i>
+            </div>
+            
+            <button onclick="switchApp('home')" class="sidebar-btn w-10 h-10 rounded-lg flex items-center justify-center hover:bg-light-hover dark:hover:bg-dark-hover transition-all duration-300 hover:scale-110 shrink-0" data-app="home" title="Home">
+                <i data-lucide="home" class="w-5 h-5"></i>
+            </button>
+            
+            <button onclick="switchApp('notes')" class="sidebar-btn w-10 h-10 rounded-lg flex items-center justify-center hover:bg-light-hover dark:hover:bg-dark-hover transition-all duration-300 hover:scale-110 shrink-0" data-app="notes" title="Notes">
+                <i data-lucide="file-text" class="w-5 h-5"></i>
+            </button>
+            
+            <button onclick="switchApp('photos')" class="sidebar-btn w-10 h-10 rounded-lg flex items-center justify-center hover:bg-light-hover dark:hover:bg-dark-hover transition-all duration-300 hover:scale-110 shrink-0" data-app="photos" title="Photos">
+                <i data-lucide="image" class="w-5 h-5"></i>
+            </button>
+            
+            <button onclick="switchApp('passwords')" class="sidebar-btn w-10 h-10 rounded-lg flex items-center justify-center hover:bg-light-hover dark:hover:bg-dark-hover transition-all duration-300 hover:scale-110 shrink-0" data-app="passwords" title="Passwords">
+                <i data-lucide="key" class="w-5 h-5"></i>
+            </button>
+            
+            <button onclick="switchApp('contacts')" class="sidebar-btn w-10 h-10 rounded-lg flex items-center justify-center hover:bg-light-hover dark:hover:bg-dark-hover transition-all duration-300 hover:scale-110 shrink-0" data-app="contacts" title="Contacts">
+                <i data-lucide="users" class="w-5 h-5"></i>
+            </button>
+            
+            <button onclick="switchApp('urls')" class="sidebar-btn w-10 h-10 rounded-lg flex items-center justify-center hover:bg-light-hover dark:hover:bg-dark-hover transition-all duration-300 hover:scale-110 shrink-0" data-app="urls" title="URL Dashboard">
+                <i data-lucide="link" class="w-5 h-5"></i>
+            </button>
+            
+            <button onclick="switchApp('settings')" class="sidebar-btn w-10 h-10 rounded-lg flex items-center justify-center hover:bg-light-hover dark:hover:bg-dark-hover transition-all duration-300 hover:scale-110 shrink-0" data-app="settings" title="Settings">
+                <i data-lucide="settings" class="w-5 h-5"></i>
+            </button>
+            
+            <!-- Profile Section at Bottom -->
+            <div class="flex-1 min-h-[20px]"></div>
+            <button onclick="switchApp('profile')" class="sidebar-btn w-10 h-10 rounded-lg flex items-center justify-center hover:bg-light-hover dark:hover:bg-dark-hover transition-all duration-300 hover:scale-110 shrink-0 mb-2" data-app="profile" title="Profile">
+                <div class="w-8 h-8 profile-avatar rounded-full flex items-center justify-center">
+                    <i data-lucide="user" class="w-4 h-4 text-white"></i>
+                </div>
+            </button>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="flex-1 flex flex-col overflow-hidden">
+            <!-- Header -->
+            <div id="header" class="h-12 shrink-0 bg-light-card dark:bg-dark-card border-b border-light-border dark:border-dark-border flex items-center justify-between px-6 transition-colors duration-300">
+                <div class="flex items-center space-x-3">
+                    <button onclick="switchApp('home')" class="text-accent hover:text-accent-hover transition-colors duration-300 hover:scale-110">
+                        <i data-lucide="grid-3x3" class="w-5 h-5"></i>
+                    </button>
+                    <span id="app-title" class="text-sm font-medium">Shivam's Essential Toolkit Pro</span>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <!-- Theme Toggle -->
+                    <button onclick="toggleTheme()" class="p-2 rounded-lg hover:bg-light-hover dark:hover:bg-dark-hover transition-all duration-300 hover:scale-110" title="Toggle Theme">
+                        <i data-lucide="sun" class="w-4 h-4 dark:hidden"></i>
+                        <i data-lucide="moon" class="w-4 h-4 hidden dark:block"></i>
+                    </button>
+                    <div class="text-xs text-gray-500 dark:text-gray-400" id="current-time"></div>
+                </div>
+            </div>
+            
+            <!-- App Content Container -->
+            <div class="flex-1 overflow-hidden relative">
+                <!-- Home App -->
+                <div id="home-app" class="app-content h-full w-full absolute inset-0 overflow-y-auto p-8 animate-fade-in custom-bg" style="background-image: url('');">
+                    <div class="bg-overlay rounded-2xl p-8" id="home-overlay">
+                        <div class="max-w-6xl mx-auto">
+                            <div class="text-center mb-12 animate-slide-up">
+                                <h1 class="text-5xl font-bold mb-4 text-white animate-bounce-in">Shivam's Essential Toolkit Pro</h1>
+                                <p class="text-gray-200 text-lg mb-4 animate-fade-in">Your personal productivity desktop</p>
+                                <div class="text-white/80 animate-slide-in">
+                                    <div id="home-date-time" class="text-xl font-medium"></div>
+                                </div>
+                            </div>
+                            
+                            <div id="apps-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                                <!-- Apps will be populated here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Notes App -->
+                <div id="notes-app" class="app-content h-full w-full absolute inset-0 hidden animate-fade-in">
+                    <div class="flex h-full">
+                        <!-- Folders Sidebar -->
+                        <div class="w-64 flex flex-col bg-light-card dark:bg-dark-card border-r border-light-border dark:border-dark-border transition-colors duration-300">
+                            <div class="p-4 border-b border-light-border dark:border-dark-border">
+                                <div class="flex items-center justify-between">
+                                    <h3 class="font-semibold">Folders</h3>
+                                    <button onclick="createFolder()" class="text-accent hover:text-accent-hover transition-all duration-300 hover:scale-110">
+                                        <i data-lucide="plus" class="w-4 h-4"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div id="folders-list" class="flex-1 overflow-y-auto p-2 space-y-1">
+                                <div class="folder-item p-2 rounded-lg hover:bg-light-hover dark:hover:bg-dark-hover cursor-pointer bg-light-hover dark:bg-dark-hover transition-all duration-300" data-folder="all">
+                                    <i data-lucide="folder" class="w-4 h-4 inline mr-2"></i>
+                                    All Notes
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Notes List -->
+                        <div class="w-80 flex flex-col bg-light-card dark:bg-dark-card border-r border-light-border dark:border-dark-border transition-colors duration-300">
+                            <div class="p-4 border-b border-light-border dark:border-dark-border">
+                                <div class="flex items-center justify-between mb-4">
+                                    <h3 class="font-semibold">Notes</h3>
+                                    <div class="flex items-center space-x-2">
+                                        <button onclick="toggleNotesView()" class="text-gray-500 hover:text-accent transition-all duration-300" title="Toggle Grid/List View">
+                                            <i id="notes-view-icon" data-lucide="layout-grid" class="w-4 h-4"></i>
+                                        </button>
+                                        <button onclick="createNote()" class="text-accent hover:text-accent-hover transition-all duration-300 hover:scale-110">
+                                            <i data-lucide="plus" class="w-4 h-4"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="notes-list" class="flex-1 overflow-y-auto p-4 space-y-2">
+                                <!-- Notes will be populated here -->
+                            </div>
+                        </div>
+                        
+                        <!-- Editor -->
+                        <div class="flex-1 flex flex-col min-w-0 bg-light-bg dark:bg-dark-bg">
+                            <div class="border-b border-light-border dark:border-dark-border p-4 transition-colors duration-300 bg-light-card dark:bg-dark-card">
+                                <div class="flex items-center space-x-2 mb-4">
+                                    <button onclick="formatText('bold')" class="p-2 rounded hover:bg-light-hover dark:hover:bg-dark-hover transition-all duration-300 hover:scale-110">
+                                        <i data-lucide="bold" class="w-4 h-4"></i>
+                                    </button>
+                                    <button onclick="formatText('italic')" class="p-2 rounded hover:bg-light-hover dark:hover:bg-dark-hover transition-all duration-300 hover:scale-110">
+                                        <i data-lucide="italic" class="w-4 h-4"></i>
+                                    </button>
+                                    <button onclick="formatText('underline')" class="p-2 rounded hover:bg-light-hover dark:hover:bg-dark-hover transition-all duration-300 hover:scale-110">
+                                        <i data-lucide="underline" class="w-4 h-4"></i>
+                                    </button>
+                                </div>
+                                <input id="note-title" type="text" placeholder="Note title..." class="w-full bg-transparent text-xl font-semibold border-none outline-none transition-all duration-300 placeholder-gray-400">
+                            </div>
+                            <div class="flex-1 overflow-y-auto p-4">
+                                <div id="note-editor" class="rich-editor w-full min-h-[500px] bg-transparent border-none outline-none text-gray-700 dark:text-gray-300 transition-colors duration-300" contenteditable="true" placeholder="Start writing..."></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Photos App -->
+                <div id="photos-app" class="app-content h-full w-full absolute inset-0 overflow-y-auto hidden p-6 animate-fade-in">
+                    <div class="flex items-center justify-between mb-6">
+                        <h2 class="text-2xl font-bold">Photos</h2>
+                        <div class="flex items-center space-x-4">
+                            <button onclick="openCloudImportModal()" class="bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded-lg flex items-center space-x-2 transition-all duration-300 hover:scale-105 text-white">
+                                <i data-lucide="cloud" class="w-4 h-4"></i>
+                                <span>Cloud Import</span>
+                            </button>
+                            <input type="file" id="photo-input" accept="image/*" multiple class="hidden">
+                            <button onclick="document.getElementById('photo-input').click()" class="bg-accent hover:bg-accent-hover px-4 py-2 rounded-lg flex items-center space-x-2 transition-all duration-300 hover:scale-105 text-white">
+                                <i data-lucide="upload" class="w-4 h-4"></i>
+                                <span>Import Photos</span>
+                            </button>
+                            <button onclick="createAlbum()" class="bg-green-500 hover:bg-green-600 px-4 py-2 rounded-lg flex items-center space-x-2 transition-all duration-300 hover:scale-105 text-white">
+                                <i data-lucide="folder-plus" class="w-4 h-4"></i>
+                                <span>Create Album</span>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Albums Tab -->
+                    <div class="mb-6">
+                        <div class="flex items-center space-x-4 mb-4">
+                            <button onclick="showPhotosView('all')" class="photos-tab px-4 py-2 rounded-lg bg-accent text-white transition-all duration-300" data-view="all">All Photos</button>
+                            <button onclick="showPhotosView('albums')" class="photos-tab px-4 py-2 rounded-lg bg-gray-200 dark:bg-gray-700 transition-all duration-300" data-view="albums">Albums</button>
+                        </div>
+                        <div id="albums-list" class="hidden grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+                            <!-- Albums will be populated here -->
+                        </div>
+                    </div>
+                    
+                    <div id="photos-grid" class="photo-grid">
+                        <!-- Photos will be populated here -->
+                    </div>
+                </div>
+                
+                <!-- Password Manager App -->
+                <div id="passwords-app" class="app-content h-full w-full absolute inset-0 overflow-y-auto hidden p-6 animate-fade-in">
+                    <div class="flex items-center justify-between mb-6">
+                        <h2 class="text-2xl font-bold">Password Manager</h2>
+                        <div class="flex items-center space-x-3">
+                            <button onclick="togglePasswordsView()" class="p-2 rounded-lg bg-gray-200 dark:bg-gray-700 hover:bg-accent hover:text-white transition-all duration-300" title="Toggle Grid/List View">
+                                <i id="passwords-view-icon" data-lucide="layout-list" class="w-4 h-4"></i>
+                            </button>
+                            <button onclick="openPasswordModal()" class="bg-accent hover:bg-accent-hover px-4 py-2 rounded-lg flex items-center space-x-2 transition-all duration-300 hover:scale-105 text-white">
+                                <i data-lucide="plus" class="w-4 h-4"></i>
+                                <span>Add Password</span>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div id="passwords-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        <!-- Password cards will be populated here -->
+                    </div>
+                </div>
+                
+                <!-- Contacts App -->
+                <div id="contacts-app" class="app-content h-full w-full absolute inset-0 hidden animate-fade-in">
+                    <div class="flex h-full">
+                        <!-- Contacts List -->
+                        <div class="w-80 flex flex-col bg-light-card dark:bg-dark-card border-r border-light-border dark:border-dark-border transition-colors duration-300">
+                            <div class="p-4 border-b border-light-border dark:border-dark-border">
+                                <div class="flex items-center justify-between mb-4">
+                                    <h3 class="font-semibold">Contacts</h3>
+                                    <div class="flex items-center space-x-2">
+                                        <button onclick="selectAllContacts()" class="text-accent hover:text-accent-hover transition-all duration-300 hover:scale-110" title="Select All">
+                                            <i data-lucide="check-square" class="w-4 h-4"></i>
+                                        </button>
+                                        <button onclick="exportContacts()" class="text-accent hover:text-accent-hover transition-all duration-300 hover:scale-110" title="Export">
+                                            <i data-lucide="download" class="w-4 h-4"></i>
+                                        </button>
+                                        <button onclick="openContactModal()" class="text-accent hover:text-accent-hover transition-all duration-300 hover:scale-110" title="Add Contact">
+                                            <i data-lucide="plus" class="w-4 h-4"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <input id="contact-search" type="text" placeholder="Search contacts..." class="w-full bg-light-hover dark:bg-dark-hover border border-light-border dark:border-dark-border rounded-lg px-3 py-2 text-sm transition-all duration-300">
+                            </div>
+                            
+                            <div id="contacts-list" class="flex-1 overflow-y-auto p-4 space-y-2">
+                                <!-- Contacts will be populated here -->
+                            </div>
+                        </div>
+                        
+                        <!-- Contact Details -->
+                        <div class="flex-1 overflow-y-auto p-6 bg-light-bg dark:bg-dark-bg">
+                            <div id="contact-details" class="flex items-center justify-center h-full text-center text-gray-400">
+                                <div>
+                                    <i data-lucide="user" class="w-16 h-16 mx-auto mb-4 opacity-50"></i>
+                                    <p>Select a contact to view details</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- URL Dashboard App -->
+                <div id="urls-app" class="app-content h-full w-full absolute inset-0 overflow-y-auto hidden p-6 animate-fade-in">
+                    <div class="flex items-center justify-between mb-6">
+                        <h2 class="text-2xl font-bold">URL Dashboard</h2>
+                        <div class="flex items-center space-x-4">
+                            <button onclick="toggleUrlsView()" class="p-2 rounded-lg bg-gray-200 dark:bg-gray-700 hover:bg-accent hover:text-white transition-all duration-300" title="Toggle Grid/List View">
+                                <i id="urls-view-icon" data-lucide="layout-list" class="w-4 h-4"></i>
+                            </button>
+                            <button onclick="createUrlFolder()" class="bg-green-500 hover:bg-green-600 px-4 py-2 rounded-lg flex items-center space-x-2 transition-all duration-300 hover:scale-105 text-white">
+                                <i data-lucide="folder-plus" class="w-4 h-4"></i>
+                                <span>Create Folder</span>
+                            </button>
+                            <button onclick="openUrlModal()" class="bg-accent hover:bg-accent-hover px-4 py-2 rounded-lg flex items-center space-x-2 transition-all duration-300 hover:scale-105 text-white">
+                                <i data-lucide="plus" class="w-4 h-4"></i>
+                                <span>Add URL</span>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- URL Folders -->
+                    <div class="mb-6">
+                        <div class="flex items-center space-x-2 mb-4">
+                            <span class="text-sm font-medium">Folders:</span>
+                            <div id="url-folders" class="flex items-center space-x-2">
+                                <button onclick="filterUrls('all')" class="url-folder-btn px-3 py-1 rounded-lg bg-accent text-white text-sm transition-all duration-300" data-folder="all">All URLs</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="urls-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                        <!-- URL cards will be populated here -->
+                    </div>
+                </div>
+                
+                <!-- Settings App -->
+                <div id="settings-app" class="app-content h-full w-full absolute inset-0 overflow-y-auto hidden p-6 animate-fade-in">
+                    <div class="max-w-4xl mx-auto">
+                        <h2 class="text-2xl font-bold mb-6">Settings</h2>
+                        
+                        <div class="space-y-6">
+                            <!-- Background Settings -->
+                            <div class="bg-light-card dark:bg-dark-card rounded-xl p-6 transition-colors duration-300">
+                                <h3 class="text-lg font-semibold mb-4">Background Settings</h3>
+                                <div class="space-y-4">
+                                    <div>
+                                        <label class="block text-sm font-medium mb-2">Custom Background Image</label>
+                                        <input type="file" id="background-input" accept="image/*" class="hidden">
+                                        <div class="flex items-center space-x-4">
+                                            <button onclick="document.getElementById('background-input').click()" class="bg-accent hover:bg-accent-hover px-4 py-2 rounded-lg transition-all duration-300 hover:scale-105 text-white">
+                                                Choose Image
+                                            </button>
+                                            <button onclick="removeBackground()" class="bg-red-500 hover:bg-red-600 px-4 py-2 rounded-lg transition-all duration-300 hover:scale-105 text-white">
+                                                Remove Background
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- App Arrangement -->
+                            <div class="bg-light-card dark:bg-dark-card rounded-xl p-6 transition-colors duration-300">
+                                <h3 class="text-lg font-semibold mb-4">App Arrangement</h3>
+                                <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">Drag and drop apps on the home screen to rearrange them</p>
+                                <button onclick="resetAppOrder()" class="bg-gray-500 hover:bg-gray-600 px-4 py-2 rounded-lg transition-all duration-300 hover:scale-105 text-white">
+                                    Reset to Default Order
+                                </button>
+                            </div>
+                            
+                            <!-- Theme Settings -->
+                            <div class="bg-light-card dark:bg-dark-card rounded-xl p-6 transition-colors duration-300">
+                                <h3 class="text-lg font-semibold mb-4">Theme Settings</h3>
+                                <div class="flex items-center space-x-4">
+                                    <button onclick="setTheme('light')" class="px-4 py-2 rounded-lg border border-light-border dark:border-dark-border transition-all duration-300 hover:scale-105">
+                                        Light Mode
+                                    </button>
+                                    <button onclick="setTheme('dark')" class="px-4 py-2 rounded-lg border border-light-border dark:border-dark-border transition-all duration-300 hover:scale-105">
+                                        Dark Mode
+                                    </button>
+                                    <button onclick="setTheme('auto')" class="px-4 py-2 rounded-lg border border-light-border dark:border-dark-border transition-all duration-300 hover:scale-105">
+                                        Auto
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Profile App -->
+                <div id="profile-app" class="app-content h-full w-full absolute inset-0 overflow-y-auto hidden p-6 animate-fade-in">
+                    <div class="max-w-2xl mx-auto">
+                        <div class="bg-light-card dark:bg-dark-card rounded-xl p-8 transition-colors duration-300">
+                            <div class="text-center mb-8">
+                                <div class="relative inline-block">
+                                    <div id="profile-avatar" class="w-32 h-32 profile-avatar rounded-full flex items-center justify-center mx-auto mb-4 transition-all duration-300 hover:scale-105">
+                                        <i data-lucide="user" class="w-16 h-16 text-white"></i>
+                                    </div>
+                                    <button onclick="changeProfilePicture()" class="absolute bottom-2 right-2 bg-accent hover:bg-accent-hover p-2 rounded-full transition-all duration-300 hover:scale-110">
+                                        <i data-lucide="camera" class="w-4 h-4 text-white"></i>
+                                    </button>
+                                </div>
+                                <input type="file" id="profile-picture-input" accept="image/*" class="hidden">
+                            </div>
+                            
+                            <form id="profile-form" class="space-y-6">
+                                <div>
+                                    <label class="block text-sm font-medium mb-2">Full Name</label>
+                                    <input type="text" id="profile-name" placeholder="Enter your name" class="w-full bg-light-hover dark:bg-dark-hover border border-light-border dark:border-dark-border rounded-lg px-4 py-3 transition-all duration-300">
+                                </div>
+                                
+                                <div>
+                                    <label class="block text-sm font-medium mb-2">Email</label>
+                                    <input type="email" id="profile-email" placeholder="Enter your email" class="w-full bg-light-hover dark:bg-dark-hover border border-light-border dark:border-dark-border rounded-lg px-4 py-3 transition-all duration-300">
+                                </div>
+                                
+                                <div>
+                                    <label class="block text-sm font-medium mb-2">Bio</label>
+                                    <textarea id="profile-bio" placeholder="Tell us about yourself..." rows="4" class="w-full bg-light-hover dark:bg-dark-hover border border-light-border dark:border-dark-border rounded-lg px-4 py-3 transition-all duration-300"></textarea>
+                                </div>
+                                
+                                <button type="submit" class="w-full bg-accent hover:bg-accent-hover py-3 rounded-lg font-medium transition-all duration-300 hover:scale-105 text-white">
+                                    Save Profile
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modals (unchanged from original except for classes if needed) -->
+    <!-- Password Modal -->
+    <div id="password-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden animate-fade-in">
+        <div class="bg-light-card dark:bg-dark-card rounded-2xl p-6 w-96 max-w-90vw animate-scale-in transition-colors duration-300">
+            <h3 class="text-xl font-semibold mb-4" id="password-modal-title">Add Password</h3>
+            <form id="password-form" class="space-y-4">
+                <input type="hidden" id="password-edit-id">
+                <input type="text" id="service-name" placeholder="Service name" class="w-full bg-light-hover dark:bg-dark-hover border border-light-border dark:border-dark-border rounded-lg px-3 py-2 transition-all duration-300">
+                <input type="url" id="service-url" placeholder="Website URL" class="w-full bg-light-hover dark:bg-dark-hover border border-light-border dark:border-dark-border rounded-lg px-3 py-2 transition-all duration-300">
+                <input type="text" id="username" placeholder="Username/Email" class="w-full bg-light-hover dark:bg-dark-hover border border-light-border dark:border-dark-border rounded-lg px-3 py-2 transition-all duration-300">
+                <input type="password" id="password" placeholder="Password" class="w-full bg-light-hover dark:bg-dark-hover border border-light-border dark:border-dark-border rounded-lg px-3 py-2 transition-all duration-300">
+                <div class="flex space-x-3">
+                    <button type="submit" class="flex-1 bg-accent hover:bg-accent-hover py-2 rounded-lg transition-all duration-300 hover:scale-105 text-white">Save</button>
+                    <button type="button" onclick="closePasswordModal()" class="flex-1 bg-gray-600 hover:bg-gray-700 py-2 rounded-lg transition-all duration-300 hover:scale-105 text-white">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Contact Modal -->
+    <div id="contact-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden animate-fade-in">
+        <div class="bg-light-card dark:bg-dark-card rounded-2xl p-6 w-96 max-w-90vw animate-scale-in transition-colors duration-300">
+            <h3 class="text-xl font-semibold mb-4" id="contact-modal-title">Add Contact</h3>
+            <form id="contact-form" class="space-y-4">
+                <input type="hidden" id="contact-edit-id">
+                
+                <!-- Profile Picture -->
+                <div class="text-center">
+                    <div class="relative inline-block">
+                        <div id="contact-avatar-preview" class="w-20 h-20 bg-accent rounded-full flex items-center justify-center mx-auto mb-2 transition-all duration-300">
+                            <i data-lucide="user" class="w-8 h-8 text-white"></i>
+                        </div>
+                        <button type="button" onclick="document.getElementById('contact-picture-input').click()" class="absolute bottom-0 right-0 bg-blue-500 hover:bg-blue-600 p-1 rounded-full transition-all duration-300 text-white">
+                            <i data-lucide="camera" class="w-3 h-3"></i>
+                        </button>
+                    </div>
+                    <input type="file" id="contact-picture-input" accept="image/*" class="hidden">
+                </div>
+                
+                <input type="text" id="contact-name" placeholder="Full name" class="w-full bg-light-hover dark:bg-dark-hover border border-light-border dark:border-dark-border rounded-lg px-3 py-2 transition-all duration-300">
+                <input type="email" id="contact-email" placeholder="Email" class="w-full bg-light-hover dark:bg-dark-hover border border-light-border dark:border-dark-border rounded-lg px-3 py-2 transition-all duration-300">
+                <input type="tel" id="contact-phone" placeholder="Phone" class="w-full bg-light-hover dark:bg-dark-hover border border-light-border dark:border-dark-border rounded-lg px-3 py-2 transition-all duration-300">
+                <input type="text" id="contact-company" placeholder="Company" class="w-full bg-light-hover dark:bg-dark-hover border border-light-border dark:border-dark-border rounded-lg px-3 py-2 transition-all duration-300">
+                <div class="flex space-x-3">
+                    <button type="submit" class="flex-1 bg-accent hover:bg-accent-hover py-2 rounded-lg transition-all duration-300 hover:scale-105 text-white">Save</button>
+                    <button type="button" onclick="closeContactModal()" class="flex-1 bg-gray-600 hover:bg-gray-700 py-2 rounded-lg transition-all duration-300 hover:scale-105 text-white">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- URL Modal -->
+    <div id="url-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden animate-fade-in">
+        <div class="bg-light-card dark:bg-dark-card rounded-2xl p-6 w-96 max-w-90vw animate-scale-in transition-colors duration-300">
+            <h3 class="text-xl font-semibold mb-4">Add URL</h3>
+            <form id="url-form" class="space-y-4">
+                <input type="text" id="url-title" placeholder="Title" class="w-full bg-light-hover dark:bg-dark-hover border border-light-border dark:border-dark-border rounded-lg px-3 py-2 transition-all duration-300">
+                <input type="url" id="url-link" placeholder="https://example.com" class="w-full bg-light-hover dark:bg-dark-hover border border-light-border dark:border-dark-border rounded-lg px-3 py-2 transition-all duration-300">
+                <select id="url-folder-select" class="w-full bg-light-hover dark:bg-dark-hover border border-light-border dark:border-dark-border rounded-lg px-3 py-2 transition-all duration-300">
+                    <option value="all">No Folder</option>
+                </select>
+                <textarea id="url-description" placeholder="Description (optional)" rows="3" class="w-full bg-light-hover dark:bg-dark-hover border border-light-border dark:border-dark-border rounded-lg px-3 py-2 transition-all duration-300"></textarea>
+                <div class="flex space-x-3">
+                    <button type="submit" class="flex-1 bg-accent hover:bg-accent-hover py-2 rounded-lg transition-all duration-300 hover:scale-105 text-white">Save</button>
+                    <button type="button" onclick="closeUrlModal()" class="flex-1 bg-gray-600 hover:bg-gray-700 py-2 rounded-lg transition-all duration-300 hover:scale-105 text-white">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Cloud Import Modal -->
+    <div id="cloud-import-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden animate-fade-in">
+        <div class="bg-light-card dark:bg-dark-card rounded-2xl p-6 w-96 max-w-90vw animate-scale-in transition-colors duration-300">
+            <h3 class="text-xl font-semibold mb-4">Import from Cloud Services</h3>
+            <div class="space-y-4">
+                <button onclick="importFromGooglePhotos()" class="w-full bg-red-500 hover:bg-red-600 py-3 rounded-lg flex items-center justify-center space-x-2 transition-all duration-300 hover:scale-105 text-white">
+                    <i data-lucide="image" class="w-5 h-5"></i>
+                    <span>Google Photos</span>
+                </button>
+                <button onclick="importFromDropbox()" class="w-full bg-blue-500 hover:bg-blue-600 py-3 rounded-lg flex items-center justify-center space-x-2 transition-all duration-300 hover:scale-105 text-white">
+                    <i data-lucide="cloud" class="w-5 h-5"></i>
+                    <span>Dropbox</span>
+                </button>
+                <button onclick="importFromOneDrive()" class="w-full bg-blue-600 hover:bg-blue-700 py-3 rounded-lg flex items-center justify-center space-x-2 transition-all duration-300 hover:scale-105 text-white">
+                    <i data-lucide="cloud" class="w-5 h-5"></i>
+                    <span>OneDrive</span>
+                </button>
+                <button onclick="closeCloudImportModal()" class="w-full bg-gray-600 hover:bg-gray-700 py-3 rounded-lg transition-all duration-300 hover:scale-105 text-white">
+                    Cancel
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Photo Editor Modal -->
+    <div id="photo-editor-modal" class="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-50 hidden animate-fade-in">
+        <div class="bg-light-card dark:bg-dark-card rounded-2xl p-6 max-w-4xl max-h-4xl w-full h-full m-4 animate-scale-in transition-colors duration-300">
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="text-xl font-semibold">Photo Editor</h3>
+                <button onclick="closePhotoEditor()" class="text-gray-500 hover:text-gray-700 transition-all duration-300 hover:scale-110">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
+            </div>
+            
+            <div class="flex h-full">
+                <!-- Editor Tools -->
+                <div class="w-64 border-r border-light-border dark:border-dark-border pr-4">
+                    <div class="space-y-4">
+                        <button onclick="cropPhoto()" class="w-full bg-accent hover:bg-accent-hover py-2 rounded-lg transition-all duration-300 hover:scale-105 text-white">
+                            <i data-lucide="crop" class="w-4 h-4 inline mr-2"></i>
+                            Crop
+                        </button>
+                        <button onclick="rotatePhoto()" class="w-full bg-blue-500 hover:bg-blue-600 py-2 rounded-lg transition-all duration-300 hover:scale-105 text-white">
+                            <i data-lucide="rotate-cw" class="w-4 h-4 inline mr-2"></i>
+                            Rotate
+                        </button>
+                        <button onclick="adjustBrightness()" class="w-full bg-yellow-500 hover:bg-yellow-600 py-2 rounded-lg transition-all duration-300 hover:scale-105 text-white">
+                            <i data-lucide="sun" class="w-4 h-4 inline mr-2"></i>
+                            Brightness
+                        </button>
+                        <button onclick="saveEditedPhoto()" class="w-full bg-green-500 hover:bg-green-600 py-2 rounded-lg transition-all duration-300 hover:scale-105 text-white">
+                            <i data-lucide="save" class="w-4 h-4 inline mr-2"></i>
+                            Save
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Editor Canvas -->
+                <div class="flex-1 pl-4">
+                    <canvas id="photo-editor-canvas" class="max-w-full max-h-full border border-light-border dark:border-dark-border rounded-lg"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Photo Lightbox -->
+    <div id="photo-lightbox" class="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-50 hidden lightbox animate-fade-in">
+        <div class="relative max-w-4xl max-h-4xl">
+            <button onclick="closeLightbox()" class="absolute top-4 right-4 text-white hover:text-gray-300 z-10 transition-all duration-300 hover:scale-110">
+                <i data-lucide="x" class="w-8 h-8"></i>
+            </button>
+            <img id="lightbox-image" src="" alt="" class="max-w-full max-h-full object-contain">
+            <div class="absolute bottom-4 left-4 text-white">
+                <p id="lightbox-title" class="font-semibold"></p>
+                <p id="lightbox-size" class="text-sm text-gray-300"></p>
+            </div>
+            <div class="absolute bottom-4 right-4 flex space-x-2">
+                <button onclick="editPhoto(currentPhotoId)" class="text-white hover:text-blue-400 transition-all duration-300 hover:scale-110">
+                    <i data-lucide="edit" class="w-6 h-6"></i>
+                </button>
+                <button onclick="toggleFavorite(currentPhotoId)" class="text-white hover:text-yellow-400 transition-all duration-300 hover:scale-110">
+                    <i data-lucide="heart" class="w-6 h-6"></i>
+                </button>
+                <button onclick="deletePhoto(currentPhotoId)" class="text-white hover:text-red-400 transition-all duration-300 hover:scale-110">
+                    <i data-lucide="trash-2" class="w-6 h-6"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Global State
+        let currentApp = 'home';
+        let currentPhotoId = null;
+        let currentNoteId = null;
+        let currentContactId = null;
+        let currentTheme = 'dark';
+        let selectedContacts = new Set();
+        let currentPhotosView = 'all';
+        let currentUrlFolder = 'all';
+        let contactPictureData = null;
+        
+        // View States
+        let currentNotesView = 'list';
+        let currentPasswordsView = 'grid';
+        let currentUrlsView = 'grid';
+        
+        // Data Storage
+        let notes = [];
+        let folders = [{ id: 'all', name: 'All Notes' }];
+        let photos = [];
+        let albums = [];
+        let passwords = [];
+        let contacts = [];
+        let urls = [];
+        let urlFolders = [{ id: 'all', name: 'All URLs' }];
+        let userProfile = {
+            name: '',
+            email: '',
+            bio: '',
+            avatar: null
+        };
+        let appOrder = ['notes', 'photos', 'passwords', 'contacts', 'urls', 'settings'];
+        let customBackground = null;
+        
+        // Initialize app
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeApp();
+            loadData(); // REPLACED loadSampleData with loadData
+            updateTime();
+            updateHomeDateTime();
+            setInterval(updateTime, 1000);
+            setInterval(updateHomeDateTime, 1000);
+        });
+        
+        function initializeApp() {
+            // Initialize Lucide icons
+            lucide.createIcons();
+            
+            // Set up event listeners
+            document.getElementById('photo-input').addEventListener('change', handlePhotoUpload);
+            document.getElementById('password-form').addEventListener('submit', handlePasswordSubmit);
+            document.getElementById('contact-form').addEventListener('submit', handleContactSubmit);
+            document.getElementById('url-form').addEventListener('submit', handleUrlSubmit);
+            document.getElementById('profile-form').addEventListener('submit', handleProfileSubmit);
+            document.getElementById('contact-search').addEventListener('input', searchContacts);
+            document.getElementById('note-editor').addEventListener('input', autoSaveNote);
+            document.getElementById('note-title').addEventListener('input', autoSaveNote);
+            document.getElementById('background-input').addEventListener('change', handleBackgroundUpload);
+            document.getElementById('profile-picture-input').addEventListener('change', handleProfilePictureUpload);
+            document.getElementById('contact-picture-input').addEventListener('change', handleContactPictureUpload);
+            
+            // Initialize notes editor placeholder
+            const editor = document.getElementById('note-editor');
+            editor.addEventListener('focus', function() {
+                if (this.textContent === '') {
+                    this.innerHTML = '';
+                }
+            });
+            
+            editor.addEventListener('blur', function() {
+                if (this.textContent === '') {
+                    this.innerHTML = '<span style="color: #666;">Start writing...</span>';
+                }
+            });
+            
+            // Initialize drag and drop for apps
+            initializeAppDragDrop();
+        }
+
+        // NEW: Persistence Logic
+        function saveData() {
+            const data = {
+                version: 1,
+                timestamp: Date.now(),
+                notes,
+                folders,
+                photos,
+                albums,
+                passwords,
+                contacts,
+                urls,
+                urlFolders,
+                userProfile,
+                appOrder,
+                customBackground,
+                theme: currentTheme
+            };
+            
+            try {
+                localStorage.setItem('toolkitData', JSON.stringify(data));
+            } catch (e) {
+                console.error('Save failed', e);
+                // Warning for quota, mainly for photos
+                if(e.name === 'QuotaExceededError') {
+                    alert('Storage quota exceeded! Your last change was not saved. Please delete some photos to free up space.');
+                }
+            }
+        }
+
+        function loadData() {
+            const saved = localStorage.getItem('toolkitData');
+            if (!saved) {
+                loadSampleData();
+                saveData(); // Save initial sample data
+                return;
+            }
+            
+            try {
+                const data = JSON.parse(saved);
+                
+                // Restore Global Settings
+                if (data.theme) {
+                    currentTheme = data.theme;
+                    setTheme(currentTheme);
+                }
+                if (data.userProfile) userProfile = data.userProfile;
+                if (data.appOrder) appOrder = data.appOrder;
+                if (data.customBackground) {
+                    customBackground = data.customBackground;
+                    applyCustomBackground();
+                }
+                
+                // Restore Arrays (Fix Dates converted to strings)
+                notes = (data.notes || []).map(n => ({
+                    ...n,
+                    created: new Date(n.created),
+                    modified: new Date(n.modified)
+                }));
+                folders = data.folders || [{ id: 'all', name: 'All Notes' }];
+                
+                photos = (data.photos || []).map(p => ({
+                    ...p,
+                    uploaded: new Date(p.uploaded)
+                }));
+                albums = data.albums || [];
+                
+                passwords = (data.passwords || []).map(p => ({
+                    ...p,
+                    created: new Date(p.created),
+                    modified: p.modified ? new Date(p.modified) : undefined
+                }));
+                
+                contacts = (data.contacts || []).map(c => ({
+                    ...c,
+                    created: new Date(c.created),
+                    modified: c.modified ? new Date(c.modified) : undefined
+                }));
+                
+                urls = (data.urls || []).map(u => ({
+                    ...u,
+                    created: new Date(u.created)
+                }));
+                urlFolders = data.urlFolders || [{ id: 'all', name: 'All URLs' }];
+                
+                // Refresh UI
+                renderAppsGrid();
+                loadProfile();
+                renderNotes();
+                renderFolders();
+                renderPhotos();
+                renderAlbums();
+                renderPasswords();
+                renderContacts();
+                renderUrls();
+                renderUrlFolders();
+                
+            } catch (e) {
+                console.error('Load failed', e);
+                alert('Error loading saved data. Starting with defaults.');
+                loadSampleData();
+            }
+        }
+        
+        function loadSampleData() {
+            // Sample notes
+            notes = [
+                {
+                    id: 1,
+                    title: 'Welcome to Shivam\'s Essential Toolkit Pro',
+                    content: 'This is your personal productivity desktop. Explore all the apps available in the sidebar.',
+                    folder: 'all',
+                    created: new Date(),
+                    modified: new Date()
+                },
+                {
+                    id: 2,
+                    title: 'Meeting Notes',
+                    content: '<b>Project Discussion</b><br><br>• Review quarterly goals<br>• Plan next sprint<br>• <i>Follow up with team</i>',
+                    folder: 'all',
+                    created: new Date(Date.now() - 86400000),
+                    modified: new Date(Date.now() - 86400000)
+                }
+            ];
+            
+            // Sample passwords
+            passwords = [
+                {
+                    id: 1,
+                    service: 'GitHub',
+                    url: 'https://github.com',
+                    username: 'user@example.com',
+                    password: 'SecurePass123!',
+                    created: new Date()
+                },
+                {
+                    id: 2,
+                    service: 'Google',
+                    url: 'https://google.com',
+                    username: 'user@gmail.com',
+                    password: 'MyPassword456!',
+                    created: new Date()
+                }
+            ];
+            
+            // Sample contacts
+            contacts = [
+                {
+                    id: 1,
+                    name: 'John Doe',
+                    email: 'john@example.com',
+                    phone: '+1 (555) 123-4567',
+                    company: 'Tech Corp',
+                    picture: null,
+                    created: new Date()
+                },
+                {
+                    id: 2,
+                    name: 'Jane Smith',
+                    email: 'jane@example.com',
+                    phone: '+1 (555) 987-6543',
+                    company: 'Design Studio',
+                    picture: null,
+                    created: new Date()
+                }
+            ];
+            
+            // Sample URLs
+            urls = [
+                {
+                    id: 1,
+                    title: 'GitHub',
+                    url: 'https://github.com',
+                    description: 'Code repository hosting',
+                    folder: 'all',
+                    created: new Date()
+                },
+                {
+                    id: 2,
+                    title: 'Stack Overflow',
+                    url: 'https://stackoverflow.com',
+                    description: 'Programming Q&A',
+                    folder: 'all',
+                    created: new Date()
+                }
+            ];
+            
+            // Render initial data
+            renderAppsGrid();
+            renderNotes();
+            renderPasswords();
+            renderContacts();
+            renderUrls();
+        }
+        
+        function updateTime() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            document.getElementById('current-time').textContent = timeString;
+        }
+        
+        function updateHomeDateTime() {
+            const now = new Date();
+            const options = { 
+                weekday: 'long', 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            };
+            const dateTimeString = now.toLocaleDateString('en-US', options);
+            const homeDateTime = document.getElementById('home-date-time');
+            if (homeDateTime) {
+                homeDateTime.textContent = dateTimeString;
+            }
+        }
+        
+        // Theme Management
+        function toggleTheme() {
+            currentTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            setTheme(currentTheme);
+            saveData(); // Save theme
+        }
+        
+        function setTheme(theme) {
+            currentTheme = theme;
+            const html = document.documentElement;
+            
+            if (theme === 'dark') {
+                html.classList.add('dark');
+                html.classList.remove('light');
+            } else {
+                html.classList.add('light');
+                html.classList.remove('dark');
+            }
+        }
+        
+        // App Navigation
+        function switchApp(appName) {
+            // Hide all apps
+            document.querySelectorAll('.app-content').forEach(app => {
+                app.classList.add('hidden');
+            });
+            
+            // Show selected app
+            const targetApp = document.getElementById(appName + '-app');
+            if (targetApp) {
+                targetApp.classList.remove('hidden');
+                targetApp.classList.add('animate-fade-in');
+            }
+            
+            // Update sidebar visibility
+            const sidebar = document.getElementById('sidebar');
+            if (appName === 'home') {
+                sidebar.classList.add('hidden');
+                document.getElementById('app-title').textContent = 'Shivam\'s Essential Toolkit Pro';
+            } else {
+                sidebar.classList.remove('hidden');
+                document.getElementById('app-title').textContent = appName.charAt(0).toUpperCase() + appName.slice(1);
+            }
+            
+            // Update sidebar active state
+            document.querySelectorAll('.sidebar-btn').forEach(btn => {
+                btn.classList.remove('bg-accent', 'text-white');
+                if (btn.dataset.app === appName) {
+                    btn.classList.add('bg-accent', 'text-white');
+                }
+            });
+            
+            currentApp = appName;
+            
+            // Re-initialize icons for new content
+            setTimeout(() => lucide.createIcons(), 100);
+        }
+        
+        // Apps Grid Management
+        function renderAppsGrid() {
+            const appsGrid = document.getElementById('apps-grid');
+            appsGrid.innerHTML = '';
+            
+            const appConfigs = [
+                { id: 'notes', name: 'Notes', icon: 'file-text', color: 'bg-yellow-500', description: 'Rich text editor with folders' },
+                { id: 'photos', name: 'Photos', icon: 'image', color: 'bg-blue-500', description: 'Image gallery with albums' },
+                { id: 'passwords', name: 'Passwords', icon: 'key', color: 'bg-red-500', description: 'Secure credential manager' },
+                { id: 'contacts', name: 'Contacts', icon: 'users', color: 'bg-green-500', description: 'Address book with pictures' },
+                { id: 'urls', name: 'URL Dashboard', icon: 'link', color: 'bg-purple-500', description: 'Bookmark manager' },
+                { id: 'settings', name: 'Settings', icon: 'settings', color: 'bg-gray-500', description: 'Customize your experience' }
+            ];
+            
+            // Sort apps according to user preference
+            const sortedApps = appOrder.map(id => appConfigs.find(app => app.id === id)).filter(Boolean);
+            const remainingApps = appConfigs.filter(app => !appOrder.includes(app.id));
+            const allApps = [...sortedApps, ...remainingApps];
+            
+            allApps.forEach((app, index) => {
+                const appElement = document.createElement('div');
+                appElement.className = 'app-card bg-white/10 backdrop-blur-md rounded-2xl p-6 cursor-pointer transition-all duration-300 hover:scale-105 animate-slide-up';
+                appElement.style.animationDelay = `${index * 0.1}s`;
+                appElement.draggable = true;
+                appElement.dataset.appId = app.id;
+                appElement.onclick = () => switchApp(app.id);
+                
+                appElement.innerHTML = `
+                    <div class="w-12 h-12 ${app.color} rounded-xl flex items-center justify-center mb-4 animate-float">
+                        <i data-lucide="${app.icon}" class="w-6 h-6 text-white"></i>
+                    </div>
+                    <h3 class="font-semibold mb-2 text-white">${app.name}</h3>
+                    <p class="text-sm text-white/80">${app.description}</p>
+                `;
+                
+                appsGrid.appendChild(appElement);
+            });
+            
+            lucide.createIcons();
+        }
+        
+        function initializeAppDragDrop() {
+            let draggedElement = null;
+            
+            document.addEventListener('dragstart', function(e) {
+                if (e.target.classList.contains('app-card')) {
+                    draggedElement = e.target;
+                    e.target.classList.add('dragging');
+                }
+            });
+            
+            document.addEventListener('dragend', function(e) {
+                if (e.target.classList.contains('app-card')) {
+                    e.target.classList.remove('dragging');
+                    draggedElement = null;
+                }
+            });
+            
+            document.addEventListener('dragover', function(e) {
+                e.preventDefault();
+            });
+            
+            document.addEventListener('drop', function(e) {
+                e.preventDefault();
+                if (draggedElement && e.target.closest('.app-card') && e.target.closest('.app-card') !== draggedElement) {
+                    const targetElement = e.target.closest('.app-card');
+                    const draggedId = draggedElement.dataset.appId;
+                    const targetId = targetElement.dataset.appId;
+                    
+                    // Update app order
+                    const draggedIndex = appOrder.indexOf(draggedId);
+                    const targetIndex = appOrder.indexOf(targetId);
+                    
+                    if (draggedIndex !== -1) {
+                        appOrder.splice(draggedIndex, 1);
+                    }
+                    if (targetIndex !== -1) {
+                        appOrder.splice(targetIndex, 0, draggedId);
+                    } else {
+                        appOrder.push(draggedId);
+                    }
+                    
+                    saveData(); // Save app order
+                    renderAppsGrid();
+                }
+            });
+        }
+        
+        function resetAppOrder() {
+            appOrder = ['notes', 'photos', 'passwords', 'contacts', 'urls', 'settings'];
+            saveData();
+            renderAppsGrid();
+        }
+        
+        // Notes App Functions
+        function toggleNotesView() {
+            currentNotesView = currentNotesView === 'list' ? 'grid' : 'list';
+            const icon = document.getElementById('notes-view-icon');
+            if (currentNotesView === 'grid') {
+                icon.setAttribute('data-lucide', 'list');
+            } else {
+                icon.setAttribute('data-lucide', 'layout-grid');
+            }
+            renderNotes();
+        }
+
+        function createNote() {
+            const note = {
+                id: Date.now(),
+                title: 'Untitled Note',
+                content: '',
+                folder: 'all',
+                created: new Date(),
+                modified: new Date()
+            };
+            notes.unshift(note);
+            renderNotes();
+            selectNote(note.id);
+            saveData(); // Save
+        }
+        
+        function selectNote(noteId) {
+            currentNoteId = noteId;
+            const note = notes.find(n => n.id === noteId);
+            if (note) {
+                document.getElementById('note-title').value = note.title;
+                document.getElementById('note-editor').innerHTML = note.content || '<span style="color: #666;">Start writing...</span>';
+            }
+            
+            // Update active state
+            document.querySelectorAll('.note-item').forEach(item => {
+                item.classList.remove('bg-accent', 'text-white');
+                if (parseInt(item.dataset.noteId) === noteId) {
+                    item.classList.add('bg-accent', 'text-white');
+                }
+            });
+        }
+        
+        function deleteNote(noteId) {
+            if (confirm('Are you sure you want to delete this note?')) {
+                notes = notes.filter(n => n.id !== noteId);
+                renderNotes();
+                if (currentNoteId === noteId) {
+                    document.getElementById('note-title').value = '';
+                    document.getElementById('note-editor').innerHTML = '<span style="color: #666;">Start writing...</span>';
+                    currentNoteId = null;
+                }
+                saveData(); // Save
+            }
+        }
+        
+        function autoSaveNote() {
+            if (currentNoteId) {
+                const note = notes.find(n => n.id === currentNoteId);
+                if (note) {
+                    note.title = document.getElementById('note-title').value || 'Untitled Note';
+                    note.content = document.getElementById('note-editor').innerHTML;
+                    note.modified = new Date();
+                    renderNotes();
+                    saveData(); // Save
+                }
+            }
+        }
+        
+        function formatText(command) {
+            document.execCommand(command, false, null);
+            document.getElementById('note-editor').focus();
+        }
+        
+        function renderNotes() {
+            const notesList = document.getElementById('notes-list');
+            notesList.innerHTML = '';
+            
+            if (currentNotesView === 'grid') {
+                notesList.className = 'flex-1 overflow-y-auto p-4 grid grid-cols-2 gap-2 content-start';
+            } else {
+                notesList.className = 'flex-1 overflow-y-auto p-4 space-y-2';
+            }
+            
+            notes.forEach(note => {
+                const noteElement = document.createElement('div');
+                noteElement.dataset.noteId = note.id;
+                noteElement.onclick = () => selectNote(note.id);
+                
+                if (currentNotesView === 'grid') {
+                    noteElement.className = 'note-item p-3 rounded-lg hover:bg-light-hover dark:hover:bg-dark-hover cursor-pointer border border-light-border dark:border-dark-border transition-all duration-300 h-24 flex flex-col justify-between';
+                    noteElement.innerHTML = `
+                        <div class="min-w-0">
+                            <h4 class="font-medium truncate text-sm">${note.title}</h4>
+                            <p class="text-xs text-gray-400 mt-1">${note.modified.toLocaleDateString()}</p>
+                        </div>
+                        <button onclick="event.stopPropagation(); deleteNote(${note.id})" class="text-gray-400 hover:text-red-400 self-end transition-all duration-300 hover:scale-110">
+                            <i data-lucide="trash-2" class="w-3 h-3"></i>
+                        </button>
+                    `;
+                } else {
+                    noteElement.className = 'note-item p-3 rounded-lg hover:bg-light-hover dark:hover:bg-dark-hover cursor-pointer border border-transparent transition-all duration-300';
+                    noteElement.innerHTML = `
+                        <div class="flex items-start justify-between">
+                            <div class="flex-1 min-w-0">
+                                <h4 class="font-medium truncate">${note.title}</h4>
+                                <p class="text-sm text-gray-400 mt-1">${note.modified.toLocaleDateString()}</p>
+                            </div>
+                            <button onclick="event.stopPropagation(); deleteNote(${note.id})" class="text-gray-400 hover:text-red-400 ml-2 transition-all duration-300 hover:scale-110">
+                                <i data-lucide="trash-2" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+                    `;
+                }
+                
+                notesList.appendChild(noteElement);
+            });
+            
+            lucide.createIcons();
+        }
+        
+        // Photos App Functions
+        function handlePhotoUpload(event) {
+            const files = Array.from(event.target.files);
+            
+            files.forEach(file => {
+                if (file.type.startsWith('image/')) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const photo = {
+                            id: Date.now() + Math.random(),
+                            name: file.name,
+                            size: file.size,
+                            url: e.target.result,
+                            favorite: false,
+                            album: 'all',
+                            uploaded: new Date()
+                        };
+                        photos.unshift(photo);
+                        renderPhotos();
+                        saveData(); // Save
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+            
+            event.target.value = '';
+        }
+        
+        function showPhotosView(view) {
+            currentPhotosView = view;
+            
+            // Update tab active state
+            document.querySelectorAll('.photos-tab').forEach(tab => {
+                tab.classList.remove('bg-accent', 'text-white');
+                tab.classList.add('bg-gray-200', 'dark:bg-gray-700');
+                if (tab.dataset.view === view) {
+                    tab.classList.add('bg-accent', 'text-white');
+                    tab.classList.remove('bg-gray-200', 'dark:bg-gray-700');
+                }
+            });
+            
+            if (view === 'albums') {
+                document.getElementById('albums-list').classList.remove('hidden');
+                document.getElementById('photos-grid').classList.add('hidden');
+                renderAlbums();
+            } else {
+                document.getElementById('albums-list').classList.add('hidden');
+                document.getElementById('photos-grid').classList.remove('hidden');
+                renderPhotos();
+            }
+        }
+        
+        function createAlbum() {
+            const albumName = prompt('Enter album name:');
+            if (albumName) {
+                const album = {
+                    id: Date.now(),
+                    name: albumName,
+                    created: new Date()
+                };
+                albums.push(album);
+                renderAlbums();
+                saveData(); // Save
+            }
+        }
+        
+        function renderAlbums() {
+            const albumsList = document.getElementById('albums-list');
+            albumsList.innerHTML = '';
+            
+            albums.forEach(album => {
+                const albumPhotos = photos.filter(p => p.album === album.id);
+                const coverPhoto = albumPhotos[0];
+                
+                const albumElement = document.createElement('div');
+                albumElement.className = 'album-item bg-light-card dark:bg-dark-card rounded-xl p-4 cursor-pointer transition-all duration-300 hover:scale-105';
+                albumElement.onclick = () => viewAlbum(album.id);
+                
+                albumElement.innerHTML = `
+                    <div class="aspect-square bg-gray-200 dark:bg-gray-700 rounded-lg mb-3 overflow-hidden">
+                        ${coverPhoto ? `<img src="${coverPhoto.url}" alt="${album.name}" class="w-full h-full object-cover">` : '<div class="w-full h-full flex items-center justify-center"><i data-lucide="image" class="w-8 h-8 text-gray-400"></i></div>'}
+                    </div>
+                    <h4 class="font-medium truncate">${album.name}</h4>
+                    <p class="text-sm text-gray-400">${albumPhotos.length} photos</p>
+                `;
+                
+                albumsList.appendChild(albumElement);
+            });
+            
+            lucide.createIcons();
+        }
+        
+        function renderPhotos() {
+            const photosGrid = document.getElementById('photos-grid');
+            photosGrid.innerHTML = '';
+            
+            if (photos.length === 0) {
+                photosGrid.innerHTML = `
+                    <div class="col-span-full text-center text-gray-400 py-20">
+                        <i data-lucide="image" class="w-16 h-16 mx-auto mb-4 opacity-50"></i>
+                        <p>No photos yet. Import some to get started!</p>
+                    </div>
+                `;
+                lucide.createIcons();
+                return;
+            }
+            
+            photos.forEach(photo => {
+                const photoElement = document.createElement('div');
+                photoElement.className = 'relative group cursor-pointer transition-all duration-300 hover:scale-105';
+                photoElement.onclick = () => openLightbox(photo.id);
+                
+                photoElement.innerHTML = `
+                    <img src="${photo.url}" alt="${photo.name}" class="w-full h-48 object-cover rounded-lg">
+                    <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-30 transition-all rounded-lg flex items-center justify-center">
+                        <div class="opacity-0 group-hover:opacity-100 transition-opacity flex space-x-2">
+                            <button onclick="event.stopPropagation(); editPhoto(${photo.id})" class="p-2 bg-black bg-opacity-50 rounded-full text-white hover:text-blue-400 transition-all duration-300 hover:scale-110">
+                                <i data-lucide="edit" class="w-4 h-4"></i>
+                            </button>
+                            <button onclick="event.stopPropagation(); toggleFavorite(${photo.id})" class="p-2 bg-black bg-opacity-50 rounded-full text-white hover:text-yellow-400 transition-all duration-300 hover:scale-110">
+                                <i data-lucide="${photo.favorite ? 'heart' : 'heart'}" class="w-4 h-4 ${photo.favorite ? 'fill-current text-yellow-400' : ''}"></i>
+                            </button>
+                            <button onclick="event.stopPropagation(); deletePhoto(${photo.id})" class="p-2 bg-black bg-opacity-50 rounded-full text-white hover:text-red-400 transition-all duration-300 hover:scale-110">
+                                <i data-lucide="trash-2" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="mt-2">
+                        <p class="text-sm font-medium truncate">${photo.name}</p>
+                        <p class="text-xs text-gray-400">${formatFileSize(photo.size)}</p>
+                    </div>
+                `;
+                
+                photosGrid.appendChild(photoElement);
+            });
+            
+            lucide.createIcons();
+        }
+        
+        function openLightbox(photoId) {
+            currentPhotoId = photoId;
+            const photo = photos.find(p => p.id === photoId);
+            if (photo) {
+                document.getElementById('lightbox-image').src = photo.url;
+                document.getElementById('lightbox-title').textContent = photo.name;
+                document.getElementById('lightbox-size').textContent = formatFileSize(photo.size);
+                document.getElementById('photo-lightbox').classList.remove('hidden');
+            }
+        }
+        
+        function closeLightbox() {
+            document.getElementById('photo-lightbox').classList.add('hidden');
+            currentPhotoId = null;
+        }
+        
+        function toggleFavorite(photoId) {
+            const photo = photos.find(p => p.id === photoId);
+            if (photo) {
+                photo.favorite = !photo.favorite;
+                renderPhotos();
+                saveData(); // Save
+            }
+        }
+        
+        function deletePhoto(photoId) {
+            if (confirm('Are you sure you want to delete this photo?')) {
+                photos = photos.filter(p => p.id !== photoId);
+                renderPhotos();
+                if (currentPhotoId === photoId) {
+                    closeLightbox();
+                }
+                saveData(); // Save
+            }
+        }
+        
+        function editPhoto(photoId) {
+            currentPhotoId = photoId;
+            const photo = photos.find(p => p.id === photoId);
+            if (photo) {
+                document.getElementById('photo-editor-modal').classList.remove('hidden');
+                loadPhotoInEditor(photo.url);
+            }
+        }
+        
+        function loadPhotoInEditor(imageUrl) {
+            const canvas = document.getElementById('photo-editor-canvas');
+            const ctx = canvas.getContext('2d');
+            const img = new Image();
+            
+            img.onload = function() {
+                canvas.width = img.width;
+                canvas.height = img.height;
+                ctx.drawImage(img, 0, 0);
+            };
+            
+            img.src = imageUrl;
+        }
+        
+        function closePhotoEditor() {
+            document.getElementById('photo-editor-modal').classList.add('hidden');
+        }
+        
+        function cropPhoto() {
+            // Simplified crop implementation
+            alert('Crop feature - In a real implementation, this would open a crop tool');
+        }
+        
+        function rotatePhoto() {
+            const canvas = document.getElementById('photo-editor-canvas');
+            const ctx = canvas.getContext('2d');
+            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            
+            // Rotate 90 degrees clockwise
+            const newCanvas = document.createElement('canvas');
+            const newCtx = newCanvas.getContext('2d');
+            newCanvas.width = canvas.height;
+            newCanvas.height = canvas.width;
+            
+            newCtx.translate(newCanvas.width / 2, newCanvas.height / 2);
+            newCtx.rotate(Math.PI / 2);
+            newCtx.drawImage(canvas, -canvas.width / 2, -canvas.height / 2);
+            
+            canvas.width = newCanvas.width;
+            canvas.height = newCanvas.height;
+            ctx.drawImage(newCanvas, 0, 0);
+        }
+        
+        function adjustBrightness() {
+            // Simplified brightness adjustment
+            alert('Brightness adjustment - In a real implementation, this would show brightness controls');
+        }
+        
+        function saveEditedPhoto() {
+            const canvas = document.getElementById('photo-editor-canvas');
+            const dataURL = canvas.toDataURL();
+            
+            const photo = photos.find(p => p.id === currentPhotoId);
+            if (photo) {
+                photo.url = dataURL;
+                photo.name = photo.name.replace(/\.[^/.]+$/, '') + '_edited.png';
+                renderPhotos();
+                closePhotoEditor();
+                saveData(); // Save
+            }
+        }
+        
+        // Cloud Import Functions
+        function openCloudImportModal() {
+            document.getElementById('cloud-import-modal').classList.remove('hidden');
+        }
+        
+        function closeCloudImportModal() {
+            document.getElementById('cloud-import-modal').classList.add('hidden');
+        }
+        
+        function importFromGooglePhotos() {
+            // Simulate Google Photos API integration
+            alert('Connecting to Google Photos...\n\nIn a real implementation, this would:\n1. Open OAuth flow for Google Photos\n2. Fetch user\'s photos\n3. Allow selection and import\n4. Download selected photos to the app');
+            closeCloudImportModal();
+        }
+        
+        function importFromDropbox() {
+            // Simulate Dropbox API integration
+            alert('Connecting to Dropbox...\n\nIn a real implementation, this would:\n1. Open OAuth flow for Dropbox\n2. Browse user\'s files\n3. Allow selection of images\n4. Download selected images to the app');
+            closeCloudImportModal();
+        }
+        
+        function importFromOneDrive() {
+            // Simulate OneDrive API integration
+            alert('Connecting to OneDrive...\n\nIn a real implementation, this would:\n1. Open OAuth flow for OneDrive\n2. Browse user\'s files\n3. Allow selection of images\n4. Download selected images to the app');
+            closeCloudImportModal();
+        }
+        
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+        
+        // Password Manager Functions
+        function togglePasswordsView() {
+            currentPasswordsView = currentPasswordsView === 'grid' ? 'list' : 'grid';
+            const icon = document.getElementById('passwords-view-icon');
+            if (currentPasswordsView === 'list') {
+                icon.setAttribute('data-lucide', 'layout-grid');
+            } else {
+                icon.setAttribute('data-lucide', 'layout-list');
+            }
+            renderPasswords();
+        }
+
+        function openPasswordModal(passwordId = null) {
+            const modal = document.getElementById('password-modal');
+            const title = document.getElementById('password-modal-title');
+            const form = document.getElementById('password-form');
+            
+            if (passwordId) {
+                const password = passwords.find(p => p.id === passwordId);
+                if (password) {
+                    title.textContent = 'Edit Password';
+                    document.getElementById('password-edit-id').value = passwordId;
+                    document.getElementById('service-name').value = password.service;
+                    document.getElementById('service-url').value = password.url;
+                    document.getElementById('username').value = password.username;
+                    document.getElementById('password').value = password.password;
+                }
+            } else {
+                title.textContent = 'Add Password';
+                form.reset();
+                document.getElementById('password-edit-id').value = '';
+            }
+            
+            modal.classList.remove('hidden');
+        }
+        
+        function closePasswordModal() {
+            document.getElementById('password-modal').classList.add('hidden');
+            document.getElementById('password-form').reset();
+        }
+        
+        function handlePasswordSubmit(event) {
+            event.preventDefault();
+            
+            const editId = document.getElementById('password-edit-id').value;
+            const passwordData = {
+                service: document.getElementById('service-name').value,
+                url: document.getElementById('service-url').value,
+                username: document.getElementById('username').value,
+                password: document.getElementById('password').value
+            };
+            
+            if (editId) {
+                // Edit existing password
+                const password = passwords.find(p => p.id === parseInt(editId));
+                if (password) {
+                    Object.assign(password, passwordData);
+                    password.modified = new Date();
+                }
+            } else {
+                // Add new password
+                const password = {
+                    id: Date.now(),
+                    ...passwordData,
+                    created: new Date()
+                };
+                passwords.unshift(password);
+            }
+            
+            renderPasswords();
+            saveData(); // Save
+            closePasswordModal();
+        }
+        
+        function renderPasswords() {
+            const passwordsContainer = document.getElementById('passwords-container');
+            passwordsContainer.innerHTML = '';
+            
+            if (passwords.length === 0) {
+                passwordsContainer.className = 'grid grid-cols-1';
+                passwordsContainer.innerHTML = `
+                    <div class="col-span-full text-center text-gray-400 py-20">
+                        <i data-lucide="key" class="w-16 h-16 mx-auto mb-4 opacity-50"></i>
+                        <p>No passwords saved yet. Add one to get started!</p>
+                    </div>
+                `;
+                lucide.createIcons();
+                return;
+            }
+            
+            if (currentPasswordsView === 'list') {
+                passwordsContainer.className = 'space-y-2';
+            } else {
+                passwordsContainer.className = 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4';
+            }
+            
+            passwords.forEach(password => {
+                const passwordElement = document.createElement('div');
+                const favicon = getFaviconUrl(password.url);
+                
+                if (currentPasswordsView === 'list') {
+                    passwordElement.className = 'bg-light-card dark:bg-dark-card rounded-lg p-3 hover:bg-light-hover dark:hover:bg-dark-hover transition-all duration-300 flex items-center justify-between';
+                    passwordElement.innerHTML = `
+                        <div class="flex items-center space-x-4 flex-1">
+                            <img src="${favicon}" alt="${password.service}" class="w-8 h-8 rounded shrink-0" onerror="this.src='data:image/svg+xml,<svg xmlns=\\\'http://www.w3.org/2000/svg\\\' viewBox=\\\'0 0 24 24\\\' fill=\\\'none\\\' stroke=\\\'currentColor\\\'><circle cx=\\\'12\\\' cy=\\\'12\\\' r=\\\'10\\\'/><path d=\\\'m9 12 2 2 4-4\\\'/></svg>'">
+                            <div class="flex-1">
+                                <h3 class="font-semibold">${password.service}</h3>
+                                <p class="text-sm text-gray-400">${password.username}</p>
+                            </div>
+                            <div class="hidden sm:block flex-1 text-center">
+                                <span class="font-mono text-sm">••••••</span>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <button onclick="copyPassword('${password.password}')" class="text-gray-400 hover:text-accent transition-all duration-300 p-2" title="Copy">
+                                <i data-lucide="copy" class="w-4 h-4"></i>
+                            </button>
+                            <button onclick="editPassword(${password.id})" class="text-gray-400 hover:text-blue-400 transition-all duration-300 p-2">
+                                <i data-lucide="edit" class="w-4 h-4"></i>
+                            </button>
+                            <button onclick="deletePassword(${password.id})" class="text-gray-400 hover:text-red-400 transition-all duration-300 p-2">
+                                <i data-lucide="trash-2" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+                    `;
+                } else {
+                    passwordElement.className = 'bg-light-card dark:bg-dark-card rounded-xl p-4 hover:bg-light-hover dark:hover:bg-dark-hover transition-all duration-300 hover:scale-105';
+                    passwordElement.innerHTML = `
+                        <div class="flex items-start justify-between mb-3">
+                            <div class="flex items-center space-x-3">
+                                <img src="${favicon}" alt="${password.service}" class="w-8 h-8 rounded" onerror="this.src='data:image/svg+xml,<svg xmlns=\\\'http://www.w3.org/2000/svg\\\' viewBox=\\\'0 0 24 24\\\' fill=\\\'none\\\' stroke=\\\'currentColor\\\'><circle cx=\\\'12\\\' cy=\\\'12\\\' r=\\\'10\\\'/><path d=\\\'m9 12 2 2 4-4\\\'/></svg>'">
+                                <div>
+                                    <h3 class="font-semibold">${password.service}</h3>
+                                    <p class="text-sm text-gray-400">${password.username}</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <button onclick="editPassword(${password.id})" class="text-gray-400 hover:text-blue-400 transition-all duration-300 hover:scale-110">
+                                    <i data-lucide="edit" class="w-4 h-4"></i>
+                                </button>
+                                <button onclick="deletePassword(${password.id})" class="text-gray-400 hover:text-red-400 transition-all duration-300 hover:scale-110">
+                                    <i data-lucide="trash-2" class="w-4 h-4"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="space-y-2">
+                            <div class="flex items-center justify-between">
+                                <span class="text-sm text-gray-400">Password</span>
+                                <div class="flex items-center space-x-2">
+                                    <button onclick="copyPassword('${password.password}')" class="text-accent hover:text-accent-hover transition-all duration-300 hover:scale-110" title="Copy Password">
+                                        <i data-lucide="copy" class="w-4 h-4"></i>
+                                    </button>
+                                    <button onclick="togglePasswordVisibility(${password.id})" class="text-accent hover:text-accent-hover transition-all duration-300 hover:scale-110">
+                                        <i data-lucide="eye" class="w-4 h-4"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div id="password-${password.id}" class="font-mono text-sm bg-light-hover dark:bg-dark-hover rounded px-2 py-1">
+                                ${'•'.repeat(password.password.length)}
+                            </div>
+                            <div class="hidden font-mono text-sm bg-light-hover dark:bg-dark-hover rounded px-2 py-1" id="password-visible-${password.id}">
+                                ${password.password}
+                            </div>
+                        </div>
+                    `;
+                }
+                
+                passwordsContainer.appendChild(passwordElement);
+            });
+            
+            lucide.createIcons();
+        }
+        
+        function getFaviconUrl(url) {
+            try {
+                const domain = new URL(url).hostname;
+                return `https://www.google.com/s2/favicons?domain=${domain}&sz=32`;
+            } catch {
+                return 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>';
+            }
+        }
+        
+        function togglePasswordVisibility(passwordId) {
+            const maskedElement = document.getElementById(`password-${passwordId}`);
+            const visibleElement = document.getElementById(`password-visible-${passwordId}`);
+            
+            if (maskedElement.classList.contains('hidden')) {
+                maskedElement.classList.remove('hidden');
+                visibleElement.classList.add('hidden');
+            } else {
+                maskedElement.classList.add('hidden');
+                visibleElement.classList.remove('hidden');
+            }
+        }
+        
+        function copyPassword(password) {
+            navigator.clipboard.writeText(password).then(() => {
+                // Show temporary feedback
+                const notification = document.createElement('div');
+                notification.className = 'fixed top-4 right-4 bg-green-500 text-white px-4 py-2 rounded-lg z-50 animate-slide-in';
+                notification.textContent = 'Password copied to clipboard!';
+                document.body.appendChild(notification);
+                
+                setTimeout(() => {
+                    notification.remove();
+                }, 2000);
+            });
+        }
+        
+        function editPassword(passwordId) {
+            openPasswordModal(passwordId);
+        }
+        
+        function deletePassword(passwordId) {
+            if (confirm('Are you sure you want to delete this password?')) {
+                passwords = passwords.filter(p => p.id !== passwordId);
+                renderPasswords();
+                saveData(); // Save
+            }
+        }
+        
+        // Contacts App Functions
+        function openContactModal(contactId = null) {
+            const modal = document.getElementById('contact-modal');
+            const title = document.getElementById('contact-modal-title');
+            const form = document.getElementById('contact-form');
+            const avatarPreview = document.getElementById('contact-avatar-preview');
+            
+            if (contactId) {
+                const contact = contacts.find(c => c.id === contactId);
+                if (contact) {
+                    title.textContent = 'Edit Contact';
+                    document.getElementById('contact-edit-id').value = contactId;
+                    document.getElementById('contact-name').value = contact.name;
+                    document.getElementById('contact-email').value = contact.email;
+                    document.getElementById('contact-phone').value = contact.phone;
+                    document.getElementById('contact-company').value = contact.company;
+                    
+                    if (contact.picture) {
+                        avatarPreview.innerHTML = `<img src="${contact.picture}" alt="${contact.name}" class="w-full h-full object-cover rounded-full">`;
+                        contactPictureData = contact.picture;
+                    } else {
+                        avatarPreview.innerHTML = `<i data-lucide="user" class="w-8 h-8 text-white"></i>`;
+                        contactPictureData = null;
+                    }
+                }
+            } else {
+                title.textContent = 'Add Contact';
+                form.reset();
+                document.getElementById('contact-edit-id').value = '';
+                avatarPreview.innerHTML = `<i data-lucide="user" class="w-8 h-8 text-white"></i>`;
+                contactPictureData = null;
+            }
+            
+            modal.classList.remove('hidden');
+            lucide.createIcons();
+        }
+        
+        function closeContactModal() {
+            document.getElementById('contact-modal').classList.add('hidden');
+            document.getElementById('contact-form').reset();
+            contactPictureData = null;
+        }
+        
+        function handleContactPictureUpload(event) {
+            const file = event.target.files[0];
+            if (file && file.type.startsWith('image/')) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    contactPictureData = e.target.result;
+                    const avatarPreview = document.getElementById('contact-avatar-preview');
+                    avatarPreview.innerHTML = `<img src="${contactPictureData}" alt="Contact" class="w-full h-full object-cover rounded-full">`;
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+        
+        function handleContactSubmit(event) {
+            event.preventDefault();
+            
+            const editId = document.getElementById('contact-edit-id').value;
+            const contactData = {
+                name: document.getElementById('contact-name').value,
+                email: document.getElementById('contact-email').value,
+                phone: document.getElementById('contact-phone').value,
+                company: document.getElementById('contact-company').value,
+                picture: contactPictureData
+            };
+            
+            if (editId) {
+                // Edit existing contact
+                const contact = contacts.find(c => c.id === parseInt(editId));
+                if (contact) {
+                    Object.assign(contact, contactData);
+                    contact.modified = new Date();
+                }
+            } else {
+                // Add new contact
+                const contact = {
+                    id: Date.now(),
+                    ...contactData,
+                    created: new Date()
+                };
+                contacts.push(contact);
+            }
+            
+            contacts.sort((a, b) => a.name.localeCompare(b.name));
+            renderContacts();
+            saveData(); // Save
+            closeContactModal();
+        }
+        
+        function renderContacts() {
+            const contactsList = document.getElementById('contacts-list');
+            contactsList.innerHTML = '';
+            
+            const searchTerm = document.getElementById('contact-search').value.toLowerCase();
+            const filteredContacts = contacts.filter(contact => 
+                contact.name.toLowerCase().includes(searchTerm) ||
+                contact.email.toLowerCase().includes(searchTerm) ||
+                contact.company.toLowerCase().includes(searchTerm)
+            );
+            
+            if (filteredContacts.length === 0) {
+                contactsList.innerHTML = `
+                    <div class="text-center text-gray-400 py-8">
+                        <i data-lucide="users" class="w-12 h-12 mx-auto mb-2 opacity-50"></i>
+                        <p>No contacts found</p>
+                    </div>
+                `;
+                lucide.createIcons();
+                return;
+            }
+            
+            filteredContacts.forEach(contact => {
+                const contactElement = document.createElement('div');
+                contactElement.className = 'contact-item p-3 rounded-lg hover:bg-light-hover dark:hover:bg-dark-hover cursor-pointer transition-all duration-300 group';
+                contactElement.dataset.contactId = contact.id;
+                contactElement.onclick = () => selectContact(contact.id);
+                
+                const isSelected = selectedContacts.has(contact.id);
+                
+                contactElement.innerHTML = `
+                    <div class="flex items-center space-x-3">
+                        <input type="checkbox" ${isSelected ? 'checked' : ''} onclick="event.stopPropagation(); toggleContactSelection(${contact.id})" class="rounded">
+                        <div class="w-10 h-10 bg-accent rounded-full flex items-center justify-center text-white font-semibold overflow-hidden shrink-0">
+                            ${contact.picture ? `<img src="${contact.picture}" alt="${contact.name}" class="w-full h-full object-cover">` : contact.name.charAt(0).toUpperCase()}
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <h4 class="font-medium truncate">${contact.name}</h4>
+                            <p class="text-sm text-gray-400 truncate">${contact.email}</p>
+                        </div>
+                        <button onclick="event.stopPropagation(); deleteContact(${contact.id})" class="text-gray-400 hover:text-red-500 p-1 opacity-100 md:opacity-0 group-hover:opacity-100 transition-opacity z-10" title="Delete">
+                            <i data-lucide="trash-2" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+                `;
+                
+                contactsList.appendChild(contactElement);
+            });
+            lucide.createIcons();
+        }
+        
+        function selectContact(contactId) {
+            currentContactId = contactId;
+            const contact = contacts.find(c => c.id === contactId);
+            if (contact) {
+                const contactDetails = document.getElementById('contact-details');
+                contactDetails.innerHTML = `
+                    <div class="max-w-md mx-auto mt-10">
+                        <div class="text-center mb-6">
+                            <div class="w-24 h-24 bg-accent rounded-full flex items-center justify-center text-white text-3xl font-semibold mx-auto mb-4 overflow-hidden">
+                                ${contact.picture ? `<img src="${contact.picture}" alt="${contact.name}" class="w-full h-full object-cover">` : contact.name.charAt(0).toUpperCase()}
+                            </div>
+                            <h2 class="text-2xl font-bold">${contact.name}</h2>
+                            <p class="text-gray-400">${contact.company}</p>
+                        </div>
+                        
+                        <div class="space-y-4">
+                            <div class="flex items-center space-x-3 p-3 bg-light-card dark:bg-dark-card rounded-lg">
+                                <i data-lucide="mail" class="w-5 h-5 text-accent"></i>
+                                <div>
+                                    <p class="text-sm text-gray-400">Email</p>
+                                    <p>${contact.email}</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-center space-x-3 p-3 bg-light-card dark:bg-dark-card rounded-lg">
+                                <i data-lucide="phone" class="w-5 h-5 text-accent"></i>
+                                <div>
+                                    <p class="text-sm text-gray-400">Phone</p>
+                                    <p>${contact.phone}</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-center space-x-3 p-3 bg-light-card dark:bg-dark-card rounded-lg">
+                                <i data-lucide="building" class="w-5 h-5 text-accent"></i>
+                                <div>
+                                    <p class="text-sm text-gray-400">Company</p>
+                                    <p>${contact.company}</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-6 space-y-3">
+                            <div class="flex space-x-3">
+                                <button onclick="callContact('${contact.phone}')" class="flex-1 bg-green-500 hover:bg-green-600 py-2 rounded-lg flex items-center justify-center space-x-2 transition-all duration-300 hover:scale-105 text-white">
+                                    <i data-lucide="phone" class="w-4 h-4"></i>
+                                    <span>Call</span>
+                                </button>
+                                <button onclick="messageContact('${contact.phone}')" class="flex-1 bg-blue-500 hover:bg-blue-600 py-2 rounded-lg flex items-center justify-center space-x-2 transition-all duration-300 hover:scale-105 text-white">
+                                    <i data-lucide="message-circle" class="w-4 h-4"></i>
+                                    <span>WhatsApp</span>
+                                </button>
+                            </div>
+                            <div class="flex space-x-3">
+                                <button onclick="editContact(${contact.id})" class="flex-1 bg-accent hover:bg-accent-hover py-2 rounded-lg transition-all duration-300 hover:scale-105 text-white">
+                                    Edit
+                                </button>
+                                <button onclick="deleteContact(${contact.id})" class="flex-1 bg-red-600 hover:bg-red-700 py-2 rounded-lg transition-all duration-300 hover:scale-105 text-white">
+                                    Delete
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                lucide.createIcons();
+            }
+            
+            // Update active state
+            document.querySelectorAll('.contact-item').forEach(item => {
+                item.classList.remove('bg-accent', 'text-white');
+                if (parseInt(item.dataset.contactId) === contactId) {
+                    item.classList.add('bg-accent', 'text-white');
+                }
+            });
+        }
+        
+        function toggleContactSelection(contactId) {
+            if (selectedContacts.has(contactId)) {
+                selectedContacts.delete(contactId);
+            } else {
+                selectedContacts.add(contactId);
+            }
+        }
+        
+        function selectAllContacts() {
+            const allContactIds = contacts.map(c => c.id);
+            if (selectedContacts.size === allContactIds.length) {
+                selectedContacts.clear();
+            } else {
+                allContactIds.forEach(id => selectedContacts.add(id));
+            }
+            renderContacts();
+        }
+        
+        function callContact(phone) {
+            window.open(`tel:${phone}`, '_self');
+        }
+        
+        function messageContact(phone) {
+            const cleanPhone = phone.replace(/\D/g, '');
+            window.open(`https://wa.me/${cleanPhone}`, '_blank');
+        }
+        
+        function editContact(contactId) {
+            openContactModal(contactId);
+        }
+        
+        function searchContacts() {
+            renderContacts();
+        }
+        
+        function deleteContact(contactId) {
+            if (confirm('Are you sure you want to delete this contact?')) {
+                contacts = contacts.filter(c => c.id !== contactId);
+                selectedContacts.delete(contactId);
+                renderContacts();
+                if (currentContactId === contactId) {
+                    document.getElementById('contact-details').innerHTML = `
+                        <div class="text-center text-gray-400 mt-20">
+                            <i data-lucide="user" class="w-16 h-16 mx-auto mb-4 opacity-50"></i>
+                            <p>Select a contact to view details</p>
+                        </div>
+                    `;
+                    lucide.createIcons();
+                    currentContactId = null;
+                }
+                saveData(); // Save
+            }
+        }
+        
+        function exportContacts() {
+            if (contacts.length === 0) {
+                alert('No contacts to export');
+                return;
+            }
+            
+            const contactsToExport = selectedContacts.size > 0 
+                ? contacts.filter(c => selectedContacts.has(c.id))
+                : contacts;
+            
+            let vcfContent = '';
+            contactsToExport.forEach(contact => {
+                vcfContent += `BEGIN:VCARD\n`;
+                vcfContent += `VERSION:3.0\n`;
+                vcfContent += `FN:${contact.name}\n`;
+                vcfContent += `EMAIL:${contact.email}\n`;
+                vcfContent += `TEL:${contact.phone}\n`;
+                vcfContent += `ORG:${contact.company}\n`;
+                if (contact.picture) {
+                    vcfContent += `PHOTO;ENCODING=BASE64:${contact.picture.split(',')[1]}\n`;
+                }
+                vcfContent += `END:VCARD\n\n`;
+            });
+            
+            const blob = new Blob([vcfContent], { type: 'text/vcard' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'contacts.vcf';
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+        
+        // URL Dashboard Functions
+        function toggleUrlsView() {
+            currentUrlsView = currentUrlsView === 'grid' ? 'list' : 'grid';
+            const icon = document.getElementById('urls-view-icon');
+            if (currentUrlsView === 'list') {
+                icon.setAttribute('data-lucide', 'layout-grid');
+            } else {
+                icon.setAttribute('data-lucide', 'layout-list');
+            }
+            renderUrls();
+        }
+
+        function openUrlModal() {
+            document.getElementById('url-modal').classList.remove('hidden');
+            renderUrlFolderSelect();
+        }
+        
+        function closeUrlModal() {
+            document.getElementById('url-modal').classList.add('hidden');
+            document.getElementById('url-form').reset();
+        }
+        
+        function handleUrlSubmit(event) {
+            event.preventDefault();
+            
+            const url = {
+                id: Date.now(),
+                title: document.getElementById('url-title').value,
+                url: document.getElementById('url-link').value,
+                description: document.getElementById('url-description').value,
+                folder: document.getElementById('url-folder-select').value,
+                created: new Date()
+            };
+            
+            urls.unshift(url);
+            renderUrls();
+            saveData(); // Save
+            closeUrlModal();
+        }
+        
+        function createUrlFolder() {
+            const folderName = prompt('Enter folder name:');
+            if (folderName) {
+                const folder = {
+                    id: Date.now(),
+                    name: folderName
+                };
+                urlFolders.push(folder);
+                renderUrlFolders();
+                saveData(); // Save
+            }
+        }
+        
+        function renderUrlFolders() {
+            const foldersContainer = document.getElementById('url-folders');
+            foldersContainer.innerHTML = '';
+            
+            urlFolders.forEach(folder => {
+                const folderElement = document.createElement('button');
+                folderElement.className = `url-folder-btn px-3 py-1 rounded-lg text-sm transition-all duration-300 ${currentUrlFolder === folder.id ? 'bg-accent text-white' : 'bg-gray-200 dark:bg-gray-700'}`;
+                folderElement.dataset.folder = folder.id;
+                folderElement.textContent = folder.name;
+                folderElement.onclick = () => filterUrls(folder.id);
+                
+                foldersContainer.appendChild(folderElement);
+            });
+        }
+        
+        function renderUrlFolderSelect() {
+            const select = document.getElementById('url-folder-select');
+            select.innerHTML = '<option value="all">No Folder</option>';
+            
+            urlFolders.slice(1).forEach(folder => {
+                const option = document.createElement('option');
+                option.value = folder.id;
+                option.textContent = folder.name;
+                select.appendChild(option);
+            });
+        }
+        
+        function filterUrls(folderId) {
+            currentUrlFolder = folderId;
+            renderUrlFolders();
+            renderUrls();
+        }
+        
+        function renderUrls() {
+            const urlsContainer = document.getElementById('urls-container');
+            urlsContainer.innerHTML = '';
+            
+            const filteredUrls = currentUrlFolder === 'all' 
+                ? urls 
+                : urls.filter(url => url.folder === currentUrlFolder);
+            
+            if (filteredUrls.length === 0) {
+                urlsContainer.className = 'grid grid-cols-1';
+                urlsContainer.innerHTML = `
+                    <div class="col-span-full text-center text-gray-400 py-20">
+                        <i data-lucide="link" class="w-16 h-16 mx-auto mb-4 opacity-50"></i>
+                        <p>No URLs saved yet. Add one to get started!</p>
+                    </div>
+                `;
+                lucide.createIcons();
+                return;
+            }
+            
+            if (currentUrlsView === 'list') {
+                urlsContainer.className = 'space-y-2';
+            } else {
+                urlsContainer.className = 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4';
+            }
+            
+            filteredUrls.forEach(url => {
+                const urlElement = document.createElement('div');
+                const favicon = getFaviconUrl(url.url);
+                
+                if (currentUrlsView === 'list') {
+                    urlElement.className = 'bg-light-card dark:bg-dark-card rounded-lg p-3 hover:bg-light-hover dark:hover:bg-dark-hover transition-all duration-300 flex items-center justify-between cursor-pointer';
+                    urlElement.onclick = () => window.open(url.url, '_blank');
+                    urlElement.innerHTML = `
+                        <div class="flex items-center space-x-3 flex-1 min-w-0">
+                            <img src="${favicon}" alt="${url.title}" class="w-6 h-6 rounded shrink-0" onerror="this.src='data:image/svg+xml,<svg xmlns=\\\'http://www.w3.org/2000/svg\\\' viewBox=\\\'0 0 24 24\\\' fill=\\\'none\\\' stroke=\\\'currentColor\\\'><circle cx=\\\'12\\\' cy=\\\'12\\\' r=\\\'10\\\'/><path d=\\\'m9 12 2 2 4-4\\\'/></svg>'">
+                            <div class="min-w-0 flex-1">
+                                <h3 class="font-semibold truncate text-sm">${url.title}</h3>
+                                <p class="text-xs text-gray-400 truncate">${url.url}</p>
+                            </div>
+                        </div>
+                        <button onclick="event.stopPropagation(); deleteUrl(${url.id})" class="text-gray-400 hover:text-red-400 p-2 transition-all duration-300">
+                            <i data-lucide="trash-2" class="w-4 h-4"></i>
+                        </button>
+                    `;
+                } else {
+                    urlElement.className = 'bg-light-card dark:bg-dark-card rounded-xl p-4 hover:bg-light-hover dark:hover:bg-dark-hover transition-all duration-300 hover:scale-105 cursor-pointer';
+                    urlElement.onclick = () => window.open(url.url, '_blank');
+                    urlElement.innerHTML = `
+                        <div class="flex items-start justify-between mb-3">
+                            <div class="flex items-center space-x-3 min-w-0">
+                                <img src="${favicon}" alt="${url.title}" class="w-8 h-8 rounded shrink-0" onerror="this.src='data:image/svg+xml,<svg xmlns=\\\'http://www.w3.org/2000/svg\\\' viewBox=\\\'0 0 24 24\\\' fill=\\\'none\\\' stroke=\\\'currentColor\\\'><circle cx=\\\'12\\\' cy=\\\'12\\\' r=\\\'10\\\'/><path d=\\\'m9 12 2 2 4-4\\\'/></svg>'">
+                                <div class="min-w-0 flex-1">
+                                    <h3 class="font-semibold truncate">${url.title}</h3>
+                                    <p class="text-sm text-gray-400 truncate">${url.url}</p>
+                                </div>
+                            </div>
+                            <button onclick="event.stopPropagation(); deleteUrl(${url.id})" class="text-gray-400 hover:text-red-400 transition-all duration-300 hover:scale-110 ml-2">
+                                <i data-lucide="trash-2" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+                        ${url.description ? `<p class="text-sm text-gray-600 dark:text-gray-300 line-clamp-2">${url.description}</p>` : ''}
+                    `;
+                }
+                
+                urlsContainer.appendChild(urlElement);
+            });
+            
+            lucide.createIcons();
+        }
+        
+        function deleteUrl(urlId) {
+            if (confirm('Are you sure you want to delete this URL?')) {
+                urls = urls.filter(u => u.id !== urlId);
+                renderUrls();
+                saveData(); // Save
+            }
+        }
+        
+        // Profile Functions
+        function changeProfilePicture() {
+            document.getElementById('profile-picture-input').click();
+        }
+        
+        function handleProfilePictureUpload(event) {
+            const file = event.target.files[0];
+            if (file && file.type.startsWith('image/')) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    userProfile.avatar = e.target.result;
+                    const avatar = document.getElementById('profile-avatar');
+                    avatar.innerHTML = `<img src="${userProfile.avatar}" alt="Profile" class="w-full h-full object-cover rounded-full">`;
+                    updateSidebarAvatar();
+                    saveData(); // Save
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+        
+        function handleProfileSubmit(event) {
+            event.preventDefault();
+            
+            userProfile.name = document.getElementById('profile-name').value;
+            userProfile.email = document.getElementById('profile-email').value;
+            userProfile.bio = document.getElementById('profile-bio').value;
+            
+            saveData(); // Save
+            
+            // Show success message
+            const notification = document.createElement('div');
+            notification.className = 'fixed top-4 right-4 bg-green-500 text-white px-4 py-2 rounded-lg z-50 animate-slide-in';
+            notification.textContent = 'Profile saved successfully!';
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.remove();
+            }, 2000);
+        }
+        
+        function updateSidebarAvatar() {
+            const sidebarAvatar = document.querySelector('[data-app="profile"] .profile-avatar');
+            if (userProfile.avatar) {
+                sidebarAvatar.innerHTML = `<img src="${userProfile.avatar}" alt="Profile" class="w-full h-full object-cover rounded-full">`;
+            } else {
+                sidebarAvatar.innerHTML = `<i data-lucide="user" class="w-4 h-4 text-white"></i>`;
+            }
+            lucide.createIcons();
+        }
+        
+        function loadProfile() {
+            document.getElementById('profile-name').value = userProfile.name;
+            document.getElementById('profile-email').value = userProfile.email;
+            document.getElementById('profile-bio').value = userProfile.bio;
+            
+            const avatar = document.getElementById('profile-avatar');
+            if (userProfile.avatar) {
+                avatar.innerHTML = `<img src="${userProfile.avatar}" alt="Profile" class="w-full h-full object-cover rounded-full">`;
+            }
+            
+            updateSidebarAvatar();
+        }
+        
+        // Settings Functions
+        function handleBackgroundUpload(event) {
+            const file = event.target.files[0];
+            if (file && file.type.startsWith('image/')) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    customBackground = e.target.result;
+                    applyCustomBackground();
+                    saveData(); // Save
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+        
+        function applyCustomBackground() {
+            const homeApp = document.getElementById('home-app');
+            if (customBackground) {
+                homeApp.style.backgroundImage = `url(${customBackground})`;
+                homeApp.classList.add('custom-bg');
+            } else {
+                homeApp.style.backgroundImage = '';
+                homeApp.classList.remove('custom-bg');
+            }
+        }
+        
+        function removeBackground() {
+            customBackground = null;
+            applyCustomBackground();
+            saveData(); // Save
+        }
+        
+        // Utility Functions
+        function createFolder() {
+            const folderName = prompt('Enter folder name:');
+            if (folderName) {
+                const folder = {
+                    id: Date.now(),
+                    name: folderName
+                };
+                folders.push(folder);
+                renderFolders();
+                saveData(); // Save
+            }
+        }
+        
+        function renderFolders() {
+            const foldersList = document.getElementById('folders-list');
+            foldersList.innerHTML = '';
+            
+            folders.forEach(folder => {
+                const folderElement = document.createElement('div');
+                folderElement.className = 'folder-item p-2 rounded-lg hover:bg-light-hover dark:hover:bg-dark-hover cursor-pointer transition-all duration-300';
+                folderElement.dataset.folder = folder.id;
+                
+                folderElement.innerHTML = `
+                    <i data-lucide="folder" class="w-4 h-4 inline mr-2"></i>
+                    ${folder.name}
+                `;
+                
+                foldersList.appendChild(folderElement);
+            });
+            
+            lucide.createIcons();
+        }
+        
+        // Keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            if (e.metaKey || e.ctrlKey) {
+                switch(e.key) {
+                    case '1':
+                        e.preventDefault();
+                        switchApp('home');
+                        break;
+                    case '2':
+                        e.preventDefault();
+                        switchApp('notes');
+                        break;
+                    case '3':
+                        e.preventDefault();
+                        switchApp('photos');
+                        break;
+                    case '4':
+                        e.preventDefault();
+                        switchApp('passwords');
+                        break;
+                    case '5':
+                        e.preventDefault();
+                        switchApp('contacts');
+                        break;
+                    case '6':
+                        e.preventDefault();
+                        switchApp('urls');
+                        break;
+                    case '7':
+                        e.preventDefault();
+                        switchApp('settings');
+                        break;
+                    case '8':
+                        e.preventDefault();
+                        switchApp('profile');
+                        break;
+                }
+            }
+        });
+        
+        // Close modals on escape
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closePasswordModal();
+                closeContactModal();
+                closeUrlModal();
+                closeCloudImportModal();
+                closeLightbox();
+                closePhotoEditor();
+            }
+        });
+        
+        // Close modals on outside click
+        document.addEventListener('click', function(e) {
+            if (e.target.id === 'password-modal') {
+                closePasswordModal();
+            }
+            if (e.target.id === 'contact-modal') {
+                closeContactModal();
+            }
+            if (e.target.id === 'url-modal') {
+                closeUrlModal();
+            }
+            if (e.target.id === 'cloud-import-modal') {
+                closeCloudImportModal();
+            }
+            if (e.target.id === 'photo-lightbox') {
+                closeLightbox();
+            }
+            if (e.target.id === 'photo-editor-modal') {
+                closePhotoEditor();
+            }
+        });
+    </script>
+</body>
+</html>

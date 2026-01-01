@@ -1,0 +1,35 @@
+{
+  "name": "shivams-essential-toolkit-pro",
+  "version": "1.0.0",
+  "description": "Shivam's Essential Toolkit Pro Desktop OS",
+  "main": "main.js",
+  "productName": "Shivam's Essential Toolkit Pro",
+  "scripts": {
+    "start": "electron .",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder"
+  },
+  "author": "Shivam",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^28.0.0",
+    "electron-builder": "^24.9.1"
+  },
+  "build": {
+    "appId": "com.shivam.essentialtoolkit",
+    "productName": "Shivam's Essential Toolkit Pro",
+    "directories": {
+      "output": "dist"
+    },
+    "win": {
+      "icon": "assets/icon.ico",
+      "target": "nsis"
+    },
+    "mac": {
+      "icon": "assets/icon.icns"
+    },
+    "linux": {
+      "icon": "assets/icon.png"
+    }
+  }
+}
