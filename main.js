@@ -6,8 +6,9 @@ function createWindow () {
     width: 1280,
     height: 800,
     webPreferences: {
-      nodeIntegration: true,
-      contextIsolation: false
+      nodeIntegration: false,
+      contextIsolation: true,
+      sandbox: true
     },
     title: "Shivam's Essential Toolkit Pro",
     icon: path.join(__dirname, 'assets', 'icon.png') // Loads the icon in the top bar

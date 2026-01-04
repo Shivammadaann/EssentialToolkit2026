@@ -1,0 +1,35 @@
+{
+  "name": "Shivam's Essential Toolkit Pro",
+  "short_name": "Toolkit Pro",
+  "description": "A comprehensive personal productivity desktop operating system",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#0a0a0a",
+  "theme_color": "#007AFF",
+  "orientation": "any",
+  "icons": [
+    {
+      "src": "assets/icon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["productivity", "utilities"],
+  "shortcuts": [
+    {
+      "name": "Notes",
+      "short_name": "Notes",
+      "description": "Open Notes App",
+      "url": "./index.html?app=notes",
+      "icons": [{ "src": "assets/icon.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Photos",
+      "short_name": "Photos",
+      "description": "Open Photos App",
+      "url": "./index.html?app=photos",
+      "icons": [{ "src": "assets/icon.png", "sizes": "192x192" }]
+    }
+  ]
+}

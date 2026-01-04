@@ -6,13 +6,9 @@
     <title>Shivam's Essential Toolkit Pro</title>
     <meta name="description" content="A comprehensive personal desktop operating system with productivity apps">
     <meta name="author" content="Shivam's Essential Toolkit Pro">
-    <!-- Improved CSP for better security -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.tailwindcss.com https://unpkg.com; style-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com; img-src 'self' data: https: blob:; connect-src 'self' https:; font-src 'self' data:; manifest-src 'self';">
+    <!-- CSP compatible with Electron (relaxed for development) -->
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com https://unpkg.com;">
     <link rel="icon" type="image/png" href="assets/icon.png">
-    <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#007AFF">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -99,6 +95,58 @@
         /* Ensure content is visible even if Lucide fails */
         i[data-lucide] { display: inline-block; min-width: 1em; min-height: 1em; }
     </style>
+<script type="importmap">
+{
+  "imports": {
+    "react": "https://esm.sh/react@^19.2.3",
+    "@radix-ui/react-alert-dialog": "https://esm.sh/@radix-ui/react-alert-dialog@^1.1.15",
+    "react/": "https://esm.sh/react@^19.2.3/",
+    "class-variance-authority": "https://esm.sh/class-variance-authority@^0.7.1",
+    "@radix-ui/react-accordion": "https://esm.sh/@radix-ui/react-accordion@^1.2.12",
+    "lucide-react": "https://esm.sh/lucide-react@^0.562.0",
+    "@radix-ui/react-checkbox": "https://esm.sh/@radix-ui/react-checkbox@^1.3.3",
+    "@radix-ui/react-slot": "https://esm.sh/@radix-ui/react-slot@^1.2.4",
+    "@radix-ui/react-aspect-ratio": "https://esm.sh/@radix-ui/react-aspect-ratio@^1.1.8",
+    "recharts": "https://esm.sh/recharts@^3.6.0",
+    "@radix-ui/react-avatar": "https://esm.sh/@radix-ui/react-avatar@^1.1.11",
+    "embla-carousel-react": "https://esm.sh/embla-carousel-react@^8.6.0",
+    "react-day-picker": "https://esm.sh/react-day-picker@^9.13.0",
+    "@radix-ui/react-collapsible": "https://esm.sh/@radix-ui/react-collapsible@^1.1.12",
+    "path": "https://esm.sh/path@^0.12.7",
+    "url": "https://esm.sh/url@^0.11.4",
+    "@eslint/eslintrc": "https://esm.sh/@eslint/eslintrc@^3.3.3",
+    "@radix-ui/react-dropdown-menu": "https://esm.sh/@radix-ui/react-dropdown-menu@^2.1.16",
+    "vaul": "https://esm.sh/vaul@^1.1.2",
+    "@radix-ui/react-dialog": "https://esm.sh/@radix-ui/react-dialog@^1.1.15",
+    "@radix-ui/react-label": "https://esm.sh/@radix-ui/react-label@^2.1.8",
+    "react-hook-form": "https://esm.sh/react-hook-form@^7.69.0",
+    "cmdk": "https://esm.sh/cmdk@^1.1.1",
+    "@radix-ui/react-context-menu": "https://esm.sh/@radix-ui/react-context-menu@^2.2.16",
+    "next": "https://esm.sh/next@^16.1.1",
+    "@radix-ui/react-hover-card": "https://esm.sh/@radix-ui/react-hover-card@^1.1.15",
+    "input-otp": "https://esm.sh/input-otp@^1.4.2",
+    "@radix-ui/react-navigation-menu": "https://esm.sh/@radix-ui/react-navigation-menu@^1.2.14",
+    "@radix-ui/react-menubar": "https://esm.sh/@radix-ui/react-menubar@^1.1.16",
+    "react-resizable-panels": "https://esm.sh/react-resizable-panels@^4.1.1",
+    "@radix-ui/react-popover": "https://esm.sh/@radix-ui/react-popover@^1.1.15",
+    "@radix-ui/react-radio-group": "https://esm.sh/@radix-ui/react-radio-group@^1.3.8",
+    "@radix-ui/react-progress": "https://esm.sh/@radix-ui/react-progress@^1.1.8",
+    "@radix-ui/react-slider": "https://esm.sh/@radix-ui/react-slider@^1.3.6",
+    "@radix-ui/react-switch": "https://esm.sh/@radix-ui/react-switch@^1.2.6",
+    "@radix-ui/react-select": "https://esm.sh/@radix-ui/react-select@^2.2.6",
+    "@radix-ui/react-separator": "https://esm.sh/@radix-ui/react-separator@^1.1.8",
+    "next-themes": "https://esm.sh/next-themes@^0.4.6",
+    "sonner": "https://esm.sh/sonner@^2.0.7",
+    "@radix-ui/react-scroll-area": "https://esm.sh/@radix-ui/react-scroll-area@^1.2.10",
+    "@radix-ui/react-toggle": "https://esm.sh/@radix-ui/react-toggle@^1.1.10",
+    "clsx": "https://esm.sh/clsx@^2.1.1",
+    "tailwind-merge": "https://esm.sh/tailwind-merge@^3.4.0",
+    "@radix-ui/react-tabs": "https://esm.sh/@radix-ui/react-tabs@^1.1.13",
+    "@radix-ui/react-tooltip": "https://esm.sh/@radix-ui/react-tooltip@^1.2.8",
+    "@radix-ui/react-toggle-group": "https://esm.sh/@radix-ui/react-toggle-group@^1.1.11"
+  }
+}
+</script>
 </head>
 <body class="bg-light-bg dark:bg-dark-bg text-gray-900 dark:text-white font-system overflow-hidden h-screen w-screen touch-manipulation">
     
@@ -426,15 +474,6 @@
                                 <p class="text-sm text-gray-500 mb-4">Rearrange home screen apps.</p>
                                 <button onclick="resetAppOrder()" class="w-full bg-gray-500 hover:bg-gray-600 py-2.5 rounded-xl text-white transition-all active:scale-95">Reset Order</button>
                             </div>
-                            <div class="bg-light-card dark:bg-dark-card rounded-2xl p-5 shadow-sm">
-                                <h3 class="text-lg font-semibold mb-4">Data Management</h3>
-                                <p class="text-sm text-gray-500 mb-4">Export or import all your data.</p>
-                                <div class="flex gap-3">
-                                    <button onclick="exportAllData()" class="flex-1 bg-blue-500 hover:bg-blue-600 py-2.5 rounded-xl text-white transition-all active:scale-95">Export Data</button>
-                                    <button onclick="importAllData()" class="flex-1 bg-green-500 hover:bg-green-600 py-2.5 rounded-xl text-white transition-all active:scale-95">Import Data</button>
-                                </div>
-                                <input type="file" id="data-import-input" accept=".json" class="hidden">
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -627,50 +666,6 @@
         let customBackground = null;
         let isSidebarOpen = false;
 
-        // Security: Simple XSS sanitization
-        function sanitizeHTML(str) {
-            const temp = document.createElement('div');
-            temp.textContent = str;
-            return temp.innerHTML;
-        }
-
-        // Simple encryption for passwords (base64 with simple XOR)
-        function encryptData(data, key = 'userSecretKey') {
-            const jsonStr = JSON.stringify(data);
-            let encrypted = '';
-            for (let i = 0; i < jsonStr.length; i++) {
-                encrypted += String.fromCharCode(jsonStr.charCodeAt(i) ^ key.charCodeAt(i % key.length));
-            }
-            return btoa(encrypted);
-        }
-
-        function decryptData(encrypted, key = 'userSecretKey') {
-            try {
-                const decoded = atob(encrypted);
-                let decrypted = '';
-                for (let i = 0; i < decoded.length; i++) {
-                    decrypted += String.fromCharCode(decoded.charCodeAt(i) ^ key.charCodeAt(i % key.length));
-                }
-                return JSON.parse(decrypted);
-            } catch (e) {
-                console.error('Decryption failed', e);
-                return null;
-            }
-        }
-
-        // Debounce utility for performance
-        function debounce(func, wait) {
-            let timeout;
-            return function executedFunction(...args) {
-                const later = () => {
-                    clearTimeout(timeout);
-                    func(...args);
-                };
-                clearTimeout(timeout);
-                timeout = setTimeout(later, wait);
-            };
-        }
-
         // Function Declarations (Hoisted)
         
         function handlePhotoUpload(e) {
@@ -778,7 +773,7 @@
                 } else {
                     lucide.createIcons();
                 }
-
+                
                 // Initialize logic
                 setupEventListeners();
                 loadData();
@@ -786,13 +781,6 @@
                 updateHomeDateTime();
                 setInterval(updateTime, 1000);
                 setInterval(updateHomeDateTime, 1000);
-
-                // Register service worker for PWA support
-                if ('serviceWorker' in navigator) {
-                    navigator.serviceWorker.register('service-worker.js')
-                        .then(reg => console.log('Service Worker registered'))
-                        .catch(err => console.log('Service Worker registration failed', err));
-                }
             } catch (e) {
                 console.error("App Initialization Error:", e);
                 // alert("App failed to initialize. Please check console.");
@@ -1001,7 +989,7 @@
             }
         }
 
-        const autoSaveNote = debounce(function() {
+        function autoSaveNote() {
             if (currentNoteId) {
                 const note = notes.find(n => n.id === currentNoteId);
                 if (note) {
@@ -1014,7 +1002,7 @@
                     saveData();
                 }
             }
-        }, 1000);
+        }
 
         // --- Photos App Logic ---
 
@@ -1244,35 +1232,7 @@
         }
 
         function exportContacts() {
-            if (contacts.length === 0) {
-                alert("No contacts to export!");
-                return;
-            }
-
-            // Generate VCF content
-            let vcfContent = '';
-            contacts.forEach(contact => {
-                vcfContent += 'BEGIN:VCARD\n';
-                vcfContent += 'VERSION:3.0\n';
-                vcfContent += `FN:${contact.name}\n`;
-                if (contact.email) vcfContent += `EMAIL:${contact.email}\n`;
-                if (contact.phone) vcfContent += `TEL:${contact.phone}\n`;
-                if (contact.company) vcfContent += `ORG:${contact.company}\n`;
-                vcfContent += 'END:VCARD\n\n';
-            });
-
-            // Create download link
-            const blob = new Blob([vcfContent], { type: 'text/vcard' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'contacts_export.vcf';
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-
-            alert(`Exported ${contacts.length} contacts successfully!`);
+            alert("Exporting contacts to VCF...");
         }
 
         function deleteContact(id) {
@@ -1304,24 +1264,8 @@
         // --- Persistence ---
         function saveData() {
             try {
-                // Encrypt passwords before saving
-                const encryptedPasswords = passwords.length > 0 ? encryptData(passwords) : null;
-
                 localStorage.setItem('toolkitData', JSON.stringify({
-                    version: 2,
-                    timestamp: Date.now(),
-                    notes,
-                    folders,
-                    photos,
-                    albums,
-                    passwords: encryptedPasswords,
-                    contacts,
-                    urls,
-                    urlFolders,
-                    userProfile,
-                    appOrder,
-                    customBackground,
-                    theme: currentTheme
+                    version: 1, timestamp: Date.now(), notes, folders, photos, albums, passwords, contacts, urls, urlFolders, userProfile, appOrder, customBackground, theme: currentTheme
                 }));
             } catch(e) {
                 console.error("Save failed", e);
@@ -1341,29 +1285,18 @@
                     userProfile = d.userProfile || userProfile; loadProfile();
                     notes = (d.notes||[]).map(n=>({...n, created:new Date(n.created), modified:new Date(n.modified)}));
                     photos = (d.photos||[]).map(p=>({...p, uploaded:new Date(p.uploaded)}));
-                    contacts = d.contacts||[];
-                    urls = d.urls||[];
-
-                    // Decrypt passwords if they're encrypted (version 2+)
-                    if (d.version >= 2 && d.passwords) {
-                        const decrypted = decryptData(d.passwords);
-                        passwords = decrypted || [];
-                    } else {
-                        // Legacy unencrypted passwords (version 1)
-                        passwords = d.passwords || [];
-                    }
-
+                    contacts = d.contacts||[]; passwords = d.passwords||[]; urls = d.urls||[];
                     // Robustly load folders, ensure array, ensure 'all' exists
                     urlFolders = Array.isArray(d.urlFolders) ? d.urlFolders : [{id:'all', name: 'All URLs'}];
                     if (!urlFolders.some(f => f.id === 'all')) {
                         urlFolders.unshift({id:'all', name: 'All URLs'});
                     }
-
+                    
                     customBackground = d.customBackground; applyCustomBackground();
                     appOrder = d.appOrder || appOrder;
                 } catch(e) { console.error(e); loadSampleData(); }
             } else { loadSampleData(); saveData(); }
-
+            
             renderAppsGrid(); renderNotes(); renderPhotos(); renderPasswords(); renderContacts(); renderUrls(); renderUrlFolders(); updateUrlFolderSelect();
         }
         function loadSampleData() {
@@ -1406,46 +1339,7 @@
         // --- Helper functions for modals, passwords, urls, profile same as before ---
         function openPasswordModal() { document.getElementById('password-modal').classList.remove('hidden'); }
         function closePasswordModal() { document.getElementById('password-modal').classList.add('hidden'); }
-        function handlePasswordSubmit(e) {
-            e.preventDefault();
-            const s = document.getElementById('service-name').value.trim();
-            const u = document.getElementById('service-url').value.trim();
-            const user = document.getElementById('username').value.trim();
-            const pass = document.getElementById('password').value;
-
-            // Validation
-            if (!s || s.length < 2) {
-                alert('Service name must be at least 2 characters');
-                return;
-            }
-            if (!user || user.length < 2) {
-                alert('Username must be at least 2 characters');
-                return;
-            }
-            if (!pass || pass.length < 4) {
-                alert('Password must be at least 4 characters');
-                return;
-            }
-            if (u && !u.match(/^https?:\/\/.+/)) {
-                alert('URL must start with http:// or https://');
-                return;
-            }
-
-            passwords.unshift({
-                id: Date.now(),
-                service: sanitizeHTML(s),
-                url: u,
-                username: sanitizeHTML(user),
-                password: pass
-            });
-
-            renderPasswords();
-            saveData();
-            closePasswordModal();
-
-            // Clear form
-            document.getElementById('password-form').reset();
-        }
+        function handlePasswordSubmit(e) { e.preventDefault(); const s=document.getElementById('service-name').value, u=document.getElementById('service-url').value, user=document.getElementById('username').value, pass=document.getElementById('password').value; passwords.unshift({id:Date.now(), service:s, url:u, username:user, password:pass}); renderPasswords(); saveData(); closePasswordModal(); }
         
         function renderPasswords() {
             const c = document.getElementById('passwords-container'); 
@@ -1515,94 +1409,6 @@
         function removeBackground() { customBackground = null; applyCustomBackground(); saveData(); }
         function resetAppOrder() { appOrder=['notes','photos','passwords','contacts','urls','settings']; saveData(); renderAppsGrid(); }
 
-        // Export all data
-        function exportAllData() {
-            const exportData = {
-                version: 2,
-                exportDate: new Date().toISOString(),
-                notes,
-                folders,
-                photos,
-                albums,
-                passwords,
-                contacts,
-                urls,
-                urlFolders,
-                userProfile,
-                appOrder,
-                customBackground,
-                theme: currentTheme
-            };
-
-            const dataStr = JSON.stringify(exportData, null, 2);
-            const blob = new Blob([dataStr], { type: 'application/json' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `toolkit_backup_${new Date().toISOString().split('T')[0]}.json`;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-
-            alert('Data exported successfully!');
-        }
-
-        // Import all data
-        function importAllData() {
-            const input = document.getElementById('data-import-input');
-            input.onchange = function(e) {
-                const file = e.target.files[0];
-                if (!file) return;
-
-                const reader = new FileReader();
-                reader.onload = function(event) {
-                    try {
-                        const imported = JSON.parse(event.target.result);
-
-                        if (confirm('This will replace all current data. Continue?')) {
-                            notes = imported.notes || [];
-                            folders = imported.folders || [{id:'all',name:'All Notes'}];
-                            photos = imported.photos || [];
-                            albums = imported.albums || [];
-                            passwords = imported.passwords || [];
-                            contacts = imported.contacts || [];
-                            urls = imported.urls || [];
-                            urlFolders = imported.urlFolders || [{id:'all',name:'All URLs'}];
-                            userProfile = imported.userProfile || userProfile;
-                            appOrder = imported.appOrder || appOrder;
-                            customBackground = imported.customBackground || null;
-                            currentTheme = imported.theme || 'dark';
-
-                            setTheme(currentTheme);
-                            applyCustomBackground();
-                            loadProfile();
-                            saveData();
-
-                            // Re-render everything
-                            renderAppsGrid();
-                            renderNotes();
-                            renderPhotos();
-                            renderPasswords();
-                            renderContacts();
-                            renderUrls();
-                            renderUrlFolders();
-                            updateUrlFolderSelect();
-
-                            alert('Data imported successfully!');
-                            switchApp('home');
-                        }
-                    } catch (e) {
-                        console.error('Import failed:', e);
-                        alert('Failed to import data. Invalid file format.');
-                    }
-                };
-                reader.readAsText(file);
-                input.value = '';
-            };
-            input.click();
-        }
-
         // --- Time ---
         function updateTime() { document.getElementById('current-time').textContent = new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'}); }
         function updateHomeDateTime() { document.getElementById('home-date-time').textContent = new Date().toLocaleDateString('en-US', {weekday:'long', year:'numeric', month:'long', day:'numeric'}); }
@@ -1631,38 +1437,13 @@
         function toggleUrlsView() { currentUrlsView = currentUrlsView==='grid'?'list':'grid'; document.getElementById('urls-view-icon').setAttribute('data-lucide', currentUrlsView==='list'?'layout-grid':'layout-list'); renderUrls(); }
         function openUrlModal() { document.getElementById('url-modal').classList.remove('hidden'); updateUrlFolderSelect(); }
         function closeUrlModal() { document.getElementById('url-modal').classList.add('hidden'); }
-        function handleUrlSubmit(e) {
-            e.preventDefault();
-            const t = document.getElementById('url-title').value.trim();
-            const l = document.getElementById('url-link').value.trim();
-            const f = document.getElementById('url-folder-select').value;
-            const desc = document.getElementById('url-description').value.trim();
-
-            // Validation
-            if (!t || t.length < 2) {
-                alert('Title must be at least 2 characters');
-                return;
-            }
-            if (!l || !l.match(/^https?:\/\/.+\..+/)) {
-                alert('Please enter a valid URL (e.g., https://example.com)');
-                return;
-            }
-
-            urls.unshift({
-                id: Date.now(),
-                title: sanitizeHTML(t),
-                url: l,
-                folder: f,
-                description: desc ? sanitizeHTML(desc) : '',
-                created: new Date()
-            });
-
-            renderUrls();
-            saveData();
-            closeUrlModal();
-
-            // Clear form
-            document.getElementById('url-form').reset();
+        function handleUrlSubmit(e) { 
+            e.preventDefault(); 
+            const t=document.getElementById('url-title').value;
+            const l=document.getElementById('url-link').value;
+            const f=document.getElementById('url-folder-select').value;
+            urls.unshift({id:Date.now(), title:t, url:l, folder:f, created:new Date()}); 
+            renderUrls(); saveData(); closeUrlModal(); 
         }
         function renderUrls() {
             const c = document.getElementById('urls-container'); 
@@ -1766,46 +1547,14 @@
         
         function openContactModal() { document.getElementById('contact-modal').classList.remove('hidden'); }
         function closeContactModal() { document.getElementById('contact-modal').classList.add('hidden'); }
-        function handleContactSubmit(e) {
-            e.preventDefault();
-            const name = document.getElementById('contact-name').value.trim();
-            const email = document.getElementById('contact-email').value.trim();
-            const phone = document.getElementById('contact-phone').value.trim();
-            const company = document.getElementById('contact-company').value.trim();
-
-            // Validation
-            if (!name || name.length < 2) {
-                alert('Name must be at least 2 characters');
-                return;
-            }
-            if (email && !email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
-                alert('Please enter a valid email address');
-                return;
-            }
-            if (phone && !phone.match(/^[\d\s\-\+\(\)]+$/)) {
-                alert('Please enter a valid phone number');
-                return;
-            }
-
-            contacts.push({
-                id: Date.now(),
-                name: sanitizeHTML(name),
-                email: email,
-                phone: phone,
-                company: sanitizeHTML(company),
-                picture: contactPictureData,
-                created: new Date()
-            });
-
-            renderContacts();
-            saveData();
-            closeContactModal();
-
-            // Clear form
-            document.getElementById('contact-form').reset();
-            document.getElementById('contact-avatar-preview').innerHTML = '<i data-lucide="user" class="w-8 h-8 text-white"></i>';
-            contactPictureData = null;
-            if (typeof lucide !== 'undefined') lucide.createIcons();
+        function handleContactSubmit(e) { 
+            e.preventDefault(); 
+            const name = document.getElementById('contact-name').value;
+            const email = document.getElementById('contact-email').value;
+            const phone = document.getElementById('contact-phone').value;
+            const company = document.getElementById('contact-company').value;
+            contacts.push({id:Date.now(), name, email, phone, company, picture:contactPictureData, created:new Date()});
+            renderContacts(); saveData(); closeContactModal();
         }
         function handleContactPictureUpload(e) {
             const f = e.target.files[0];

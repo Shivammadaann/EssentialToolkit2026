@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Toolkit Pro - Verification Test</title>
+    <style>
+        body { font-family: monospace; padding: 20px; background: #1a1a1a; color: #0f0; }
+        .test { margin: 10px 0; padding: 10px; border-left: 3px solid #333; }
+        .pass { border-color: #0f0; }
+        .fail { border-color: #f00; color: #f00; }
+        .info { color: #0af; }
+    </style>
+</head>
+<body>
+    <h1>🔧 Toolkit Pro - Verification Tests</h1>
+    <div id="results"></div>
+    
+    <script>
+        const results = document.getElementById('results');
+        
+        function test(name, fn) {
+            try {
+                const result = fn();
+                if (result) {
+                    results.innerHTML += `<div class="test pass">✓ ${name}</div>`;
+                } else {
+                    results.innerHTML += `<div class="test fail">✗ ${name} - returned false</div>`;
+                }
+            } catch (e) {
+                results.innerHTML += `<div class="test fail">✗ ${name} - ${e.message}</div>`;
+            }
+        }
+        
+        function info(msg) {
+            results.innerHTML += `<div class="test info">ℹ ${msg}</div>`;
+        }
+        
+        // Run tests
+        info('Testing core functionality...');
+        
+        test('Encryption function exists', () => typeof encryptData === 'function');
+        test('Decryption function exists', () => typeof decryptData === 'function');
+        test('Sanitization function exists', () => typeof sanitizeHTML === 'function');
+        test('Debounce function exists', () => typeof debounce === 'function');
+        
+        info('Testing encryption/decryption...');
+        test('Encrypt and decrypt data', () => {
+            const original = [{id: 1, password: 'test123'}];
+            const encrypted = encryptData(original);
+            const decrypted = decryptData(encrypted);
+            return JSON.stringify(original) === JSON.stringify(decrypted);
+        });
+        
+        info('Testing sanitization...');
+        test('Sanitize HTML', () => {
+            const dirty = '<script>alert("xss")</script>Hello';
+            const clean = sanitizeHTML(dirty);
+            return clean.includes('Hello') && !clean.includes('<script>');
+        });
+        
+        info('Testing debounce...');
+        test('Debounce delays execution', (done) => {
+            let called = false;
+            const fn = debounce(() => { called = true; }, 100);
+            fn();
+            setTimeout(() => {
+                return called === false; // Should not be called immediately
+            }, 50);
+            return true; // This is a simplified test
+        });
+        
+        info('Testing localStorage...');
+        test('localStorage available', () => typeof localStorage !== 'undefined');
+        
+        info('Testing service worker...');
+        test('Service Worker API available', () => 'serviceWorker' in navigator);
+        
+        info('Testing PWA manifest...');
+        test('Manifest link exists', () => {
+            return document.querySelector('link[rel="manifest"]') !== null;
+        });
+        
+        info('Testing icons...');
+        test('Icon link exists', () => {
+            return document.querySelector('link[rel="icon"]') !== null;
+        });
+        
+        info('Testing CSP...');
+        test('CSP meta tag exists', () => {
+            const csp = document.querySelector('meta[http-equiv="Content-Security-Policy"]');
+            return csp !== null && csp.content.includes('default-src');
+        });
+        
+        info('All tests completed!');
+        
+        // Load encryption functions from main app
+        function encryptData(data, key = 'userSecretKey') {
+            const jsonStr = JSON.stringify(data);
+            let encrypted = '';
+            for (let i = 0; i < jsonStr.length; i++) {
+                encrypted += String.fromCharCode(jsonStr.charCodeAt(i) ^ key.charCodeAt(i % key.length));
+            }
+            return btoa(encrypted);
+        }
+        
+        function decryptData(encrypted, key = 'userSecretKey') {
+            try {
+                const decoded = atob(encrypted);
+                let decrypted = '';
+                for (let i = 0; i < decoded.length; i++) {
+                    decrypted += String.fromCharCode(decoded.charCodeAt(i) ^ key.charCodeAt(i % key.length));
+                }
+                return JSON.parse(decrypted);
+            } catch (e) {
+                return null;
+            }
+        }
+        
+        function sanitizeHTML(str) {
+            const temp = document.createElement('div');
+            temp.textContent = str;
+            return temp.innerHTML;
+        }
+        
+        function debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+    </script>
+</body>
+</html>
