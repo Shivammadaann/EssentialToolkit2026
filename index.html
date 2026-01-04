@@ -1563,5 +1563,146 @@
         function searchContacts() { renderContacts(); }
 
     </script>
+
+    <!-- Modern Feature Modules -->
+    <script src="js/crypto.js"></script>
+    <script src="js/toast.js"></script>
+    <script src="js/command-palette.js"></script>
+    <script src="js/search.js"></script>
+    <script src="js/keyboard-shortcuts.js"></script>
+
+    <!-- Initialize new features after DOM is ready -->
+    <script>
+        // Add hint for command palette in header
+        document.addEventListener('DOMContentLoaded', function() {
+            const header = document.getElementById('header');
+            if (header) {
+                const hintDiv = document.createElement('div');
+                hintDiv.className = 'hidden md:flex items-center gap-2 text-xs text-gray-500 bg-light-hover dark:bg-dark-hover px-3 py-1.5 rounded-lg';
+                hintDiv.innerHTML = `
+                    <kbd class="px-1.5 py-0.5 bg-gray-200 dark:bg-gray-700 rounded text-[10px]">⌘K</kbd>
+                    <span>Commands</span>
+                `;
+                const rightSection = header.querySelector('.flex.items-center.space-x-3');
+                if (rightSection) {
+                    rightSection.insertBefore(hintDiv, rightSection.firstChild);
+                }
+            }
+
+            // Show welcome toast on first load
+            const hasSeenWelcome = localStorage.getItem('hasSeenWelcome');
+            if (!hasSeenWelcome) {
+                setTimeout(() => {
+                    toast.success('Press Cmd/Ctrl+K for quick commands!', 5000);
+                    localStorage.setItem('hasSeenWelcome', 'true');
+                }, 1000);
+            }
+        });
+
+        // Enhanced password modal with generator
+        const originalOpenPasswordModal = window.openPasswordModal;
+        window.openPasswordModal = function() {
+            originalOpenPasswordModal();
+            const modal = document.getElementById('password-modal');
+            const passwordInput = document.getElementById('password');
+            
+            // Add password generator button if not exists
+            if (!document.getElementById('generate-password-btn')) {
+                const generateBtn = document.createElement('button');
+                generateBtn.id = 'generate-password-btn';
+                generateBtn.type = 'button';
+                generateBtn.className = 'absolute right-3 top-1/2 -translate-y-1/2 text-accent hover:text-accent-hover';
+                generateBtn.innerHTML = '<i data-lucide="refresh-cw" class="w-4 h-4"></i>';
+                generateBtn.onclick = function() {
+                    const newPassword = window.cryptoManager.generatePassword(16);
+                    passwordInput.value = newPassword;
+                    passwordInput.type = 'text';
+                    toast.success('Strong password generated!');
+                };
+                
+                const wrapper = passwordInput.parentElement;
+                wrapper.style.position = 'relative';
+                wrapper.appendChild(generateBtn);
+                if (typeof lucide !== 'undefined') lucide.createIcons();
+            }
+
+            // Add strength meter if not exists
+            if (!document.getElementById('password-strength')) {
+                const strengthDiv = document.createElement('div');
+                strengthDiv.id = 'password-strength';
+                strengthDiv.className = 'mt-2 hidden';
+                strengthDiv.innerHTML = `
+                    <div class="flex items-center gap-2">
+                        <div class="flex-1 h-1.5 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+                            <div id="strength-bar" class="h-full transition-all duration-300" style="width: 0%"></div>
+                        </div>
+                        <span id="strength-label" class="text-xs font-medium"></span>
+                    </div>
+                `;
+                passwordInput.parentElement.appendChild(strengthDiv);
+
+                passwordInput.addEventListener('input', function() {
+                    if (this.value) {
+                        const strength = window.cryptoManager.calculateStrength(this.value);
+                        const strengthDiv = document.getElementById('password-strength');
+                        const bar = document.getElementById('strength-bar');
+                        const label = document.getElementById('strength-label');
+                        
+                        strengthDiv.classList.remove('hidden');
+                        bar.style.width = strength.score + '%';
+                        bar.className = `h-full transition-all duration-300 ${
+                            strength.color === 'red' ? 'bg-red-500' :
+                            strength.color === 'yellow' ? 'bg-yellow-500' : 'bg-green-500'
+                        }`;
+                        label.textContent = strength.label;
+                        label.className = `text-xs font-medium ${
+                            strength.color === 'red' ? 'text-red-500' :
+                            strength.color === 'yellow' ? 'text-yellow-500' : 'text-green-500'
+                        }`;
+                    } else {
+                        document.getElementById('password-strength').classList.add('hidden');
+                    }
+                });
+            }
+        };
+
+        // Enhanced save with toast notifications
+        const originalSaveData = window.saveData;
+        window.saveData = function() {
+            try {
+                originalSaveData();
+            } catch(e) {
+                if (e.name === 'QuotaExceededError') {
+                    toast.error('Storage full! Please delete some photos.');
+                } else {
+                    toast.error('Failed to save data: ' + e.message);
+                }
+            }
+        };
+
+        // Add copy to clipboard for passwords with toast
+        window.copyToClipboard = function(text, message = 'Copied to clipboard!') {
+            navigator.clipboard.writeText(text).then(() => {
+                toast.success(message);
+            }).catch(() => {
+                toast.error('Failed to copy');
+            });
+        };
+
+        // Enhanced photo upload with progress
+        const originalHandlePhotoUpload = window.handlePhotoUpload;
+        window.handlePhotoUpload = function(e) {
+            const files = Array.from(e.target.files);
+            if (!files.length) return;
+
+            toast.info(`Uploading ${files.length} photo(s)...`, 2000);
+            
+            originalHandlePhotoUpload(e);
+            
+            setTimeout(() => {
+                toast.success(`${files.length} photo(s) uploaded successfully!`);
+            }, 1000);
+        };
+    </script>
 </body>
 </html>

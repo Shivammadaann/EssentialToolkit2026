@@ -2,14 +2,51 @@
 
 A comprehensive single-page HTML application wrapped as a desktop executable that functions as a mini operating system with 7 fully functional productivity apps.
 
-## 🚀 Features
+## ✨ NEW FEATURES (Latest Update)
+
+### 🎯 Command Palette (⌘K / Ctrl+K)
+- Quick access to all apps and actions
+- Fuzzy search through commands
+- Keyboard navigation with categories
+- **Try it now**: Press `Cmd+K` or `Ctrl+K`!
+
+### 🔍 Global Search (⌘F / Ctrl+F)
+- Search across ALL apps simultaneously
+- Find notes, contacts, passwords, and URLs instantly
+- Real-time results with navigation
+
+### 🔐 Enhanced Password Security
+- **AES-256 Encryption** for all passwords
+- **Password Generator** with strength meter
+- One-click copy to clipboard
+- Visual strength indicator
+
+### 🎨 Toast Notifications
+- Beautiful, non-intrusive notifications
+- Success, error, warning, and info types
+- Auto-dismiss with smooth animations
+
+### ⌨️ Keyboard Shortcuts
+- Press `?` to see all shortcuts
+- Navigate with `Ctrl+1-8`
+- Context-aware actions with `Ctrl+N`
+- Full keyboard navigation support
+
+### 💾 Data Management
+- Export all data to JSON backup
+- Import data from backup
+- Clear all data option
+- Access via Command Palette
+
+## 🚀 Core Features
 
 ### Core System
 - **Dark Mode Apple-inspired Design**: Premium UI with rounded cards, soft borders, and smooth animations
 - **Sidebar Navigation**: Icon-based navigation with active states
 - **Home Screen**: Grid-based app launcher with hover effects
 - **Responsive Layout**: Works perfectly on desktop, tablet, and mobile devices
-- **Persistence**: All data is saved to local storage, ensuring your notes and settings remain after you close the app.
+- **Persistence**: All data is saved to local storage, ensuring your notes and settings remain after you close the app
+- **Modular Architecture**: Clean, maintainable code split into modules
 
 ### 📝 Notes App
 - **3-Column Layout**: Folders, notes list, and rich text editor
@@ -49,8 +86,21 @@ A comprehensive single-page HTML application wrapped as a desktop executable tha
 - **Electron**: Wrapped as a standalone desktop application
 - **Tailwind CSS**: Utility-first CSS framework
 - **Lucide Icons**: Beautiful icon library
-- **Keyboard Shortcuts**: Cmd/Ctrl + 1-8 for quick app switching
+- **Web Crypto API**: AES-256 encryption for passwords
+- **Modular JavaScript**: Clean, maintainable code architecture
 - **Data Persistence**: Uses `localStorage` to save user data permanently on the machine
+
+## ⌨️ Keyboard Shortcuts
+
+| Shortcut | Action |
+|----------|--------|
+| `Cmd/Ctrl + K` | Open Command Palette |
+| `Cmd/Ctrl + F` | Global Search |
+| `Cmd/Ctrl + 1-8` | Navigate to apps |
+| `Cmd/Ctrl + N` | Create new item (context-aware) |
+| `Cmd/Ctrl + /` | Toggle theme |
+| `?` | Show all keyboard shortcuts |
+| `ESC` | Close any modal |
 
 ## 🚀 Building the App
 
